@@ -1,0 +1,186 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="img" aria-label="Koelony Geometric Construction Blueprint">
+  <title>Koelony Geometric Construction Blueprint</title>
+  <defs>
+    <clipPath id="bp-kclip"><path d="M 140.000 304.400 A 139.400 139.400 0 0 1 418.800 304.400 L 418.800 306.773 A 14.960 14.960 0 0 0 443.226 318.356 L 592.390 196.459 A 139.400 139.400 0 1 1 746.954 426.995 L 652.553 478.089 A 30.600 30.600 0 0 0 652.553 531.911 L 746.954 583.005 A 139.400 139.400 0 1 1 592.390 813.541 L 443.226 691.644 A 14.960 14.960 0 0 0 418.800 703.227 L 418.800 705.600 A 139.400 139.400 0 0 1 140.000 705.600 Z"/></clipPath>
+    <mask id="bp-mask">
+      <rect x="4.0" y="29.0" width="952.0" height="952.0" fill="black"/>
+      <path d="M 140.000 304.400 A 139.400 139.400 0 0 1 418.800 304.400 L 418.800 306.773 A 14.960 14.960 0 0 0 443.226 318.356 L 592.390 196.459 A 139.400 139.400 0 1 1 746.954 426.995 L 652.553 478.089 A 30.600 30.600 0 0 0 652.553 531.911 L 746.954 583.005 A 139.400 139.400 0 1 1 592.390 813.541 L 443.226 691.644 A 14.960 14.960 0 0 0 418.800 703.227 L 418.800 705.600 A 139.400 139.400 0 0 1 140.000 705.600 Z" fill="white"/>
+      <path d="M 528.901 364.706 A 244.800 244.800 0 0 1 641.854 372.483 A 136.000 136.000 0 0 0 510.605 509.587 A 302.600 302.600 0 0 1 99.662 794.762 L 72.000 899.400 L 135.305 753.840 A 384.200 384.200 0 0 1 365.870 440.944 A 108.800 108.800 0 0 0 421.692 386.672 A 68.000 68.000 0 0 1 528.901 364.706 Z" fill="black"/>
+      <g clip-path="url(#bp-kclip)"><path d="M 449.400 542.400 A 248.200 248.200 0 0 1 152.240 768.840 A 578.000 578.000 0 0 0 449.400 542.400 Z" fill="white"/></g>
+    </mask>
+    <clipPath id="draft-board"><rect x="65" y="95" width="845" height="845" rx="16"/></clipPath>
+  </defs>
+  <rect width="1600" height="1000" fill="#F8FAFC"/>
+  <!-- Top Header Bar -->
+  <text x="68" y="60" font-family="DejaVu Sans" font-weight="700" font-size="24" letter-spacing="3" fill="#0F172A">KOELONY</text>
+  <text x="220" y="60" font-family="DejaVu Sans Mono" font-size="14" fill="#64748B">GEOMETRIC LOGO CONSTRUCTION BLUEPRINT · REV 4.0</text>
+  <line x1="65" y1="78" x2="1535" y2="78" stroke="#CBD5E1" stroke-width="1.2"/>
+
+  <!-- Left Drafting Board -->
+  <rect x="65" y="95" width="845" height="845" rx="16" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+  <g clip-path="url(#draft-board)">
+    <g id="grid">    <line x1="140.0" y1="137.0" x2="140.0" y2="873.0" stroke="#64748B" stroke-width="1.3"/>
+    <line x1="112.0" y1="165.0" x2="848.0" y2="165.0" stroke="#64748B" stroke-width="1.3"/>
+    <text x="140.0" y="129.0" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">0u</text>
+    <text x="102.0" y="169.0" text-anchor="end" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">0u</text>
+    <line x1="208.0" y1="137.0" x2="208.0" y2="873.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="112.0" y1="233.0" x2="848.0" y2="233.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="276.0" y1="137.0" x2="276.0" y2="873.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="112.0" y1="301.0" x2="848.0" y2="301.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <text x="276.0" y="129.0" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">2u</text>
+    <text x="102.0" y="305.0" text-anchor="end" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">2u</text>
+    <line x1="344.0" y1="137.0" x2="344.0" y2="873.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="112.0" y1="369.0" x2="848.0" y2="369.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="412.0" y1="137.0" x2="412.0" y2="873.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="112.0" y1="437.0" x2="848.0" y2="437.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <text x="412.0" y="129.0" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">4u</text>
+    <text x="102.0" y="441.0" text-anchor="end" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">4u</text>
+    <line x1="480.0" y1="137.0" x2="480.0" y2="873.0" stroke="#94A3B8" stroke-width="1.3" stroke-dasharray="4 4"/>
+    <line x1="112.0" y1="505.0" x2="848.0" y2="505.0" stroke="#94A3B8" stroke-width="1.3" stroke-dasharray="4 4"/>
+    <text x="480.0" y="129.0" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">5u</text>
+    <text x="102.0" y="509.0" text-anchor="end" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">5u</text>
+    <line x1="548.0" y1="137.0" x2="548.0" y2="873.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="112.0" y1="573.0" x2="848.0" y2="573.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <text x="548.0" y="129.0" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">6u</text>
+    <text x="102.0" y="577.0" text-anchor="end" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">6u</text>
+    <line x1="616.0" y1="137.0" x2="616.0" y2="873.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="112.0" y1="641.0" x2="848.0" y2="641.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="684.0" y1="137.0" x2="684.0" y2="873.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="112.0" y1="709.0" x2="848.0" y2="709.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <text x="684.0" y="129.0" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">8u</text>
+    <text x="102.0" y="713.0" text-anchor="end" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">8u</text>
+    <line x1="752.0" y1="137.0" x2="752.0" y2="873.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="112.0" y1="777.0" x2="848.0" y2="777.0" stroke="#CBD5E1" stroke-width="0.65" stroke-dasharray="4 4"/>
+    <line x1="820.0" y1="137.0" x2="820.0" y2="873.0" stroke="#64748B" stroke-width="1.3"/>
+    <line x1="112.0" y1="845.0" x2="848.0" y2="845.0" stroke="#64748B" stroke-width="1.3"/>
+    <text x="820.0" y="129.0" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">10u</text>
+    <text x="102.0" y="849.0" text-anchor="end" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">10u</text>
+    <line x1="381.4" y1="505.0" x2="680.6" y2="304.4" stroke="#0284C7" stroke-width="1.2" stroke-dasharray="5 3" stroke-opacity="0.75"/>
+    <line x1="381.4" y1="505.0" x2="680.6" y2="705.6" stroke="#0284C7" stroke-width="1.2" stroke-dasharray="5 3" stroke-opacity="0.75"/>
+    <rect x="140.0" y="165.0" width="680.0" height="680.0" fill="none" stroke="#0F172A" stroke-width="1.6" stroke-opacity="0.65"/></g>
+  <g opacity="0.80">
+    <rect x="4.0" y="29.0" width="952.0" height="952.0" fill="#101216" mask="url(#bp-mask)"/>
+    <circle cx="499.040" cy="399.600" r="19.720" fill="#E5252A"/>
+  </g>
+    <g id="circles">    <circle cx="279.40" cy="304.40" r="139.40" fill="none" stroke="#0284C7" stroke-width="1.5" stroke-opacity="0.78"/>
+    <line x1="274.9" y1="304.4" x2="283.9" y2="304.4" stroke="#0284C7" stroke-width="1.1"/>
+    <line x1="279.4" y1="299.9" x2="279.4" y2="308.9" stroke="#0284C7" stroke-width="1.1"/>
+    <circle cx="279.40" cy="705.60" r="139.40" fill="none" stroke="#0284C7" stroke-width="1.5" stroke-opacity="0.78"/>
+    <line x1="274.9" y1="705.6" x2="283.9" y2="705.6" stroke="#0284C7" stroke-width="1.1"/>
+    <line x1="279.4" y1="701.1" x2="279.4" y2="710.1" stroke="#0284C7" stroke-width="1.1"/>
+    <circle cx="680.60" cy="304.40" r="139.40" fill="none" stroke="#0284C7" stroke-width="1.5" stroke-opacity="0.78"/>
+    <line x1="676.1" y1="304.4" x2="685.1" y2="304.4" stroke="#0284C7" stroke-width="1.1"/>
+    <line x1="680.6" y1="299.9" x2="680.6" y2="308.9" stroke="#0284C7" stroke-width="1.1"/>
+    <circle cx="680.60" cy="705.60" r="139.40" fill="none" stroke="#0284C7" stroke-width="1.5" stroke-opacity="0.78"/>
+    <line x1="676.1" y1="705.6" x2="685.1" y2="705.6" stroke="#0284C7" stroke-width="1.1"/>
+    <line x1="680.6" y1="701.1" x2="680.6" y2="710.1" stroke="#0284C7" stroke-width="1.1"/>
+    <circle cx="381.40" cy="505.00" r="105.40" fill="none" stroke="#0284C7" stroke-width="1.5" stroke-opacity="0.78"/>
+    <line x1="376.9" y1="505.0" x2="385.9" y2="505.0" stroke="#0284C7" stroke-width="1.1"/>
+    <line x1="381.4" y1="500.5" x2="381.4" y2="509.5" stroke="#0284C7" stroke-width="1.1"/>
+    <circle cx="667.12" cy="505.00" r="30.60" fill="none" stroke="#38BDF8" stroke-width="1.25" stroke-opacity="0.50" stroke-dasharray="6 4"/>
+    <line x1="662.6" y1="505.0" x2="671.6" y2="505.0" stroke="#38BDF8" stroke-width="1.1"/>
+    <line x1="667.1" y1="500.5" x2="667.1" y2="509.5" stroke="#38BDF8" stroke-width="1.1"/>
+    <circle cx="483.40" cy="415.24" r="68.00" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-opacity="0.78"/>
+    <line x1="478.9" y1="415.2" x2="487.9" y2="415.2" stroke="#DC2626" stroke-width="1.1"/>
+    <line x1="483.4" y1="410.7" x2="483.4" y2="419.7" stroke="#DC2626" stroke-width="1.1"/>
+    <circle cx="646.60" cy="508.40" r="136.00" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-opacity="0.78"/>
+    <line x1="642.1" y1="508.4" x2="651.1" y2="508.4" stroke="#DC2626" stroke-width="1.1"/>
+    <line x1="646.6" y1="503.9" x2="646.6" y2="512.9" stroke="#DC2626" stroke-width="1.1"/>
+    <circle cx="208.02" cy="512.23" r="302.60" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-opacity="0.78"/>
+    <line x1="203.5" y1="512.2" x2="212.5" y2="512.2" stroke="#DC2626" stroke-width="1.1"/>
+    <line x1="208.0" y1="507.7" x2="208.0" y2="516.7" stroke="#DC2626" stroke-width="1.1"/>
+    <circle cx="517.40" cy="794.00" r="384.20" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-opacity="0.78"/>
+    <line x1="512.9" y1="794.0" x2="521.9" y2="794.0" stroke="#DC2626" stroke-width="1.1"/>
+    <line x1="517.4" y1="789.5" x2="517.4" y2="798.5" stroke="#DC2626" stroke-width="1.1"/>
+    <circle cx="322.96" cy="340.96" r="108.80" fill="none" stroke="#DC2626" stroke-width="1.5" stroke-opacity="0.78"/>
+    <line x1="318.5" y1="341.0" x2="327.5" y2="341.0" stroke="#DC2626" stroke-width="1.1"/>
+    <line x1="323.0" y1="336.5" x2="323.0" y2="345.5" stroke="#DC2626" stroke-width="1.1"/>
+    <circle cx="569.02" cy="606.20" r="244.80" fill="none" stroke="#F87171" stroke-width="1.25" stroke-opacity="0.50" stroke-dasharray="6 4"/>
+    <line x1="564.5" y1="606.2" x2="573.5" y2="606.2" stroke="#F87171" stroke-width="1.1"/>
+    <line x1="569.0" y1="601.7" x2="569.0" y2="610.7" stroke="#F87171" stroke-width="1.1"/>
+    <circle cx="-30.70" cy="220.56" r="578.00" fill="none" stroke="#7C3AED" stroke-width="1.25" stroke-opacity="0.78"/>
+    <circle cx="201.77" cy="525.63" r="248.20" fill="none" stroke="#7C3AED" stroke-width="1.25" stroke-opacity="0.78"/>
+    <line x1="197.3" y1="525.6" x2="206.3" y2="525.6" stroke="#7C3AED" stroke-width="1.1"/>
+    <line x1="201.8" y1="521.1" x2="201.8" y2="530.1" stroke="#7C3AED" stroke-width="1.1"/>
+    <circle cx="499.04" cy="399.60" r="19.72" fill="none" stroke="#E5252A" stroke-width="1.25" stroke-opacity="0.50"/>
+    <line x1="494.5" y1="399.6" x2="503.5" y2="399.6" stroke="#E5252A" stroke-width="1.1"/>
+    <line x1="499.0" y1="395.1" x2="499.0" y2="404.1" stroke="#E5252A" stroke-width="1.1"/></g>
+    <g id="tangents">    <circle cx="510.61" cy="509.59" r="4.5" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.0"/>
+    <circle cx="421.69" cy="386.67" r="4.5" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.0"/>
+    <circle cx="365.87" cy="440.94" r="4.5" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.0"/>
+    <circle cx="641.85" cy="372.48" r="4.5" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.0"/>
+    <circle cx="449.40" cy="542.40" r="4.5" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.0"/>
+    <circle cx="192.27" cy="814.42" r="4.5" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.0"/></g>
+  </g>
+  <text x="480" y="920" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="12" fill="#475569">10u × 10u MASTER SQUARE (1:1) · PURE EUCLIDEAN L+A VECTOR ARCS · ZERO FREEHAND BEZIER</text>
+
+  <!-- Right Specification Panel -->
+  <rect x="945" y="95" width="590" height="845" rx="16" fill="#FFFFFF" stroke="#CBD5E1" stroke-width="1.2"/>
+
+  <!-- Section 1: Legend & Circle System -->
+  <text x="980" y="142" font-family="DejaVu Sans" font-weight="700" font-size="15" letter-spacing="1.5" fill="#0F172A">01 · EUCLIDEAN CIRCLE SYSTEM</text>
+  <line x1="980" y1="156" x2="1500" y2="156" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Legend rows -->
+  <circle cx="992" cy="186" r="6" fill="none" stroke="#0284C7" stroke-width="2.2"/>
+  <text x="1012" y="191" font-family="DejaVu Sans" font-weight="700" font-size="13.5" fill="#0F172A">K Monolith (5 Circles + Tangent Lines)</text>
+  <text x="1012" y="212" font-family="DejaVu Sans Mono" font-size="12" fill="#475569">K1–K4 uniform corner R = 2.05u · K0 waist = 1.55u</text>
+  <text x="1012" y="230" font-family="DejaVu Sans Mono" font-size="12" fill="#475569">Right V-notch fillet r = 0.45u · Bridge = 1.38u</text>
+
+  <circle cx="992" cy="268" r="6" fill="none" stroke="#DC2626" stroke-width="2.2"/>
+  <text x="1012" y="273" font-family="DejaVu Sans" font-weight="700" font-size="13.5" fill="#0F172A">Negative-Space Koel (6 G1-Tangent Arcs)</text>
+  <text x="1012" y="294" font-family="DejaVu Sans Mono" font-size="12" fill="#475569">B1 Head 1.00u · B2 Throat 2.00u · B3 Belly 4.45u</text>
+  <text x="1012" y="312" font-family="DejaVu Sans Mono" font-size="12" fill="#475569">B4 Back 5.65u · B5 Nape 1.60u · B6 Beak 3.60u</text>
+
+  <circle cx="992" cy="350" r="6" fill="none" stroke="#7C3AED" stroke-width="2.2"/>
+  <text x="1012" y="355" font-family="DejaVu Sans" font-weight="700" font-size="13.5" fill="#0F172A">Tapered Wing Crescent (2-Circle Lens)</text>
+  <text x="1012" y="376" font-family="DejaVu Sans Mono" font-size="12" fill="#475569">W1 Upper 8.50u ∩ W2 Lower 3.65u · Max width 0.85u</text>
+
+  <circle cx="992" cy="410" r="6" fill="#FFFFFF" stroke="#0F172A" stroke-width="2.0"/>
+  <text x="1012" y="415" font-family="DejaVu Sans" font-weight="700" font-size="13.5" fill="#0F172A">Exact G1 Tangency &amp; Intersection Nodes</text>
+  <text x="1012" y="436" font-family="DejaVu Sans Mono" font-size="12" fill="#475569">Continuous curvature transitions · Zero kinks</text>
+
+  <!-- Section 2: Modular Circle Ratio Visual Diagram -->
+  <text x="980" y="488" font-family="DejaVu Sans" font-weight="700" font-size="15" letter-spacing="1.5" fill="#0F172A">02 · PROPORTIONAL RADIUS SCALE</text>
+  <line x1="980" y1="502" x2="1500" y2="502" stroke="#E2E8F0" stroke-width="1"/>
+  <!-- Visual circles bottom-aligned on baseline y=655 -->
+  <line x1="980" y1="655" x2="1500" y2="655" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="3 3"/>
+  <circle cx="1006" cy="647" r="8" fill="#E5252A"/>
+  <text x="1006" y="676" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="11" fill="#475569">0.29u</text>
+  <text x="1006" y="691" text-anchor="middle" font-family="DejaVu Sans" font-size="10.5" fill="#64748B">Eye</text>
+
+  <circle cx="1068" cy="635" r="20" fill="none" stroke="#DC2626" stroke-width="1.8"/>
+  <text x="1068" y="676" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="11" fill="#475569">1.00u</text>
+  <text x="1068" y="691" text-anchor="middle" font-family="DejaVu Sans" font-size="10.5" fill="#64748B">Head</text>
+
+  <circle cx="1156" cy="617" r="38" fill="none" stroke="#0284C7" stroke-width="1.8"/>
+  <text x="1156" y="676" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="11" fill="#475569">2.05u (1R)</text>
+  <text x="1156" y="691" text-anchor="middle" font-family="DejaVu Sans" font-size="10.5" fill="#64748B">K Lobes / Throat</text>
+
+  <circle cx="1280" cy="602" r="53" fill="none" stroke="#7C3AED" stroke-width="1.8"/>
+  <text x="1280" y="676" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="11" fill="#475569">3.65u</text>
+  <text x="1280" y="691" text-anchor="middle" font-family="DejaVu Sans" font-size="10.5" fill="#64748B">Wing / Beak</text>
+
+  <circle cx="1426" cy="593" r="62" fill="none" stroke="#DC2626" stroke-width="1.8" stroke-dasharray="4 3"/>
+  <text x="1426" y="676" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="11" fill="#475569">4.45u</text>
+  <text x="1426" y="691" text-anchor="middle" font-family="DejaVu Sans" font-size="10.5" fill="#64748B">Belly Sweep</text>
+
+  <!-- Section 3: Boolean Construction Formula & 3-Color Spec -->
+  <text x="980" y="742" font-family="DejaVu Sans" font-weight="700" font-size="15" letter-spacing="1.5" fill="#0F172A">03 · BOOLEAN FORMULA &amp; PALETTE</text>
+  <line x1="980" y1="756" x2="1500" y2="756" stroke="#E2E8F0" stroke-width="1"/>
+  <rect x="980" y="772" width="520" height="44" rx="8" fill="#F1F5F9"/>
+  <text x="1240" y="799" text-anchor="middle" font-family="DejaVu Sans Mono" font-size="13" font-weight="700" fill="#0F172A">MARK = ((K \ KOEL) ∪ (WING ∩ K)) + EYE</text>
+
+  <!-- 3 Swatches -->
+  <rect x="980" y="838" width="160" height="72" rx="10" fill="#101216"/>
+  <text x="996" y="870" font-family="DejaVu Sans" font-weight="700" font-size="13" fill="#F5F5F2">Obsidian</text>
+  <text x="996" y="892" font-family="DejaVu Sans Mono" font-size="12" fill="#94A3B8">#101216</text>
+
+  <rect x="1160" y="838" width="160" height="72" rx="10" fill="#F5F5F2" stroke="#CBD5E1" stroke-width="1.2"/>
+  <text x="1176" y="870" font-family="DejaVu Sans" font-weight="700" font-size="13" fill="#101216">Bone White</text>
+  <text x="1176" y="892" font-family="DejaVu Sans Mono" font-size="12" fill="#64748B">#F5F5F2</text>
+
+  <rect x="1340" y="838" width="160" height="72" rx="10" fill="#E5252A"/>
+  <text x="1356" y="870" font-family="DejaVu Sans" font-weight="700" font-size="13" fill="#FFFFFF">Koel Crimson</text>
+  <text x="1356" y="892" font-family="DejaVu Sans Mono" font-size="12" fill="#FECACA">#E5252A</text>
+</svg>
