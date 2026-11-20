@@ -5,8 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && bun scripts/prerender.ts",
+    "build": "bun scripts/fonts.ts --ensure && vite build && vite build --ssr src/entry-server.tsx --outDir dist-ssr && bun scripts/prerender.ts",
     "preview": "vite preview --host 127.0.0.1 --port 4173 --strictPort",
+    "fonts": "bun scripts/fonts.ts",
+    "icons": "bun scripts/icons.ts",
     "typecheck": "tsc --noEmit",
     "lint": "biome check .",
     "format": "biome check --write .",
@@ -20,6 +22,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.6.8",
+    "@resvg/resvg-js": "^2.6.2",
     "@types/bun": "^1.4.5",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",

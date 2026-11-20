@@ -1,24 +1,20 @@
 import type { Dict } from "../i18n";
-import { DEMO_URL, LINKS, LOCALES, type Locale } from "../site";
+import { DEMO_URL, LINKS, LOCALES, type Locale, SITE_NAME } from "../site";
 import { Logo } from "./Logo";
 
 export function Footer({ t, locale }: { t: Dict; locale: Locale }) {
   return (
     <footer className="site-footer">
-      <div className="container footer-inner">
-        <div>
+      <div className="wrap footer-grid">
+        <div className="footer-about">
           <a className="brand" href={LOCALES[locale].path}>
-            <Logo size={28} />
-            <span className="brand-word">Koelony</span>
+            <Logo height={44} />
           </a>
           <p>{t.footer.tagline}</p>
-          <p className="fine">
-            {t.footer.license} {t.footer.madeIn} · © {new Date().getFullYear()} Koelony
-          </p>
         </div>
         <nav aria-label={t.footer.links} className="footer-links">
           <a href={LINKS.githubOrg} rel="noopener">
-            GitHub · koelony
+            {t.nav.github}
           </a>
           <a href={LINKS.asrRepo} rel="noopener">
             qwen3-asr-cantonese-hk
@@ -35,11 +31,18 @@ export function Footer({ t, locale }: { t: Dict; locale: Locale }) {
               href={LOCALES[k].path}
               hrefLang={LOCALES[k].hreflang}
               lang={LOCALES[k].htmlLang}
+              aria-current={k === locale ? "page" : undefined}
             >
               {LOCALES[k].label}
             </a>
           ))}
         </nav>
+        <ul className="footer-fine">
+          <li>{t.footer.license}</li>
+          <li>
+            © {__BUILD_YEAR__} {SITE_NAME}
+          </li>
+        </ul>
       </div>
     </footer>
   );

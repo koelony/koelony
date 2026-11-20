@@ -10,36 +10,48 @@ export type Dict = {
     name: string;
     github: string;
     switchLabel: string;
+    /** Accessible name of the main navigation landmark. */
+    primary: string;
   };
   hero: {
-    eyebrow: string;
     title: string;
     lede: string;
     ctaDemo: string;
     ctaGithub: string;
     /** A code-switched Hong Kong Cantonese sentence, shown as a live "transcript". */
     sample: string;
+    /**
+     * Jyutping for `sample`, one syllable per Chinese character in order, space-separated (English
+     * words are skipped). If the count does not match, the transcript shows without annotations.
+     */
+    sampleJyutping: string;
     sampleLabel: string;
   };
-  name: { kicker: string; title: string; body: string[] };
+  name: {
+    title: string;
+    body: string[];
+    /** Caption of the figure that sets the koel's call beside the six Cantonese tones. */
+    tonesCaption: string;
+  };
   asr: {
-    kicker: string;
     title: string;
     lede: string;
     cards: { size: string; badge: string; title: string; body: string }[];
-    stats: { value: string; label: string }[];
+    /** Headline results, one plain sentence each, every figure inside the sentence it proves. */
+    findings: string[];
     formatsTitle: string;
     formatsCols: { repo: string; format: string; size: string; runtime: string };
     benchTitle: string;
     benchCaption: string;
     benchCols: { set: string; stock: string; ours: string; whisper: string };
     benchToggle: { m17: string; m06: string };
+    /** Accessible name of the 1.7B / 0.6B switch above the benchmark. */
+    benchToggleLabel: string;
     benchNote: string;
     ctaRepo: string;
     ctaHf: string;
   };
   demo: {
-    kicker: string;
     title: string;
     body: string;
     points: string[];
@@ -47,12 +59,13 @@ export type Dict = {
     note: string;
   };
   nest: {
-    kicker: string;
     title: string;
     lede: string;
     status: Record<Status, string>;
     items: { title: string; status: Status; body: string }[];
   };
-  usedBy: { kicker: string; title: string; body: string; cta: string };
-  footer: { tagline: string; license: string; madeIn: string; links: string };
+  usedBy: { title: string; body: string; cta: string };
+  footer: { tagline: string; license: string; links: string };
+  /** The koel that flies around the page. `call` is what it sings, `poke` labels the button on it. */
+  koel: { call: string; poke: string };
 };

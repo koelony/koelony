@@ -6,12 +6,11 @@ export function Header({ t, locale }: { t: Dict; locale: Locale }) {
   const other: Locale = locale === "en" ? "zh-hk" : "en";
   return (
     <header className="site-header">
-      <div className="container header-inner">
-        <a className="brand" href={LOCALES[locale].path} aria-label="Koelony">
-          <Logo size={30} />
-          <span className="brand-word">Koelony</span>
+      <div className="wrap header-row">
+        <a className="brand" href={LOCALES[locale].path}>
+          <Logo height={36} />
         </a>
-        <nav aria-label="Primary" className="nav">
+        <nav aria-label={t.nav.primary} className="nav">
           <a href="#asr">{t.nav.asr}</a>
           <a href="#demo">{t.nav.demo}</a>
           <a href="#nest">{t.nav.nest}</a>
@@ -21,7 +20,7 @@ export function Header({ t, locale }: { t: Dict; locale: Locale }) {
           </a>
         </nav>
         <a
-          className="lang-switch"
+          className="lang"
           href={LOCALES[other].path}
           hrefLang={LOCALES[other].hreflang}
           lang={LOCALES[other].htmlLang}

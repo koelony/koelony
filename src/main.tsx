@@ -5,6 +5,9 @@ import { DICTS } from "./i18n";
 import { localeFromPath } from "./locale";
 import "./styles.css";
 
+// Start fetching the deferred chunk now, so the koel is ready as soon as the page has hydrated.
+void import("./koel/Companion");
+
 const locale = localeFromPath(window.location.pathname);
 const root = document.getElementById("root");
 if (!root) throw new Error("#root missing");
