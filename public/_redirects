@@ -1,0 +1,6 @@
+# Short links (Cloudflare static assets)
+/demo            https://hkasr.joe2643.work                      302
+/github          https://github.com/koelony                      302
+/asr             https://github.com/joe2643/qwen3-asr-cantonese-hk 302
+/hf              https://huggingface.co/joe2643/Qwen3-ASR-1.7B-Cantonese-HK 302
+/zh-hk/demo      https://hkasr.joe2643.work                      302
