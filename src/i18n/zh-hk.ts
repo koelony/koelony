@@ -28,8 +28,9 @@ export const zhHK: Dict = {
     primary: "主目錄",
   },
   hero: {
-    title: "廣東話，香港人點講就點寫。",
-    lede: "Koelony 係一隊香港團隊，成立就係為咗整專屬香港廣東話嘅開源語音同語言模型。第一個推出嘅係語音識別，免費放咗喺 Hugging Face。",
+    // \u200b marks where the heading may wrap (the h1 keeps Chinese words together otherwise).
+    title: "係香港人嘅\u200b廣東話，\u200b而唔係\u200b一般嘅粵語",
+    lede: "Koelony 係一隊香港團隊，為研究香港廣東話專屬的 AI model，已經免費開源咗第一個語音識別模型。",
     ctaDemo: "試吓 0.6B demo",
     sample: "今朝喺地鐵站等咗成粒鐘，個 schedule 完全 delay 晒。",
     sampleJyutping:
@@ -38,7 +39,7 @@ export const zhHK: Dict = {
   },
   asr: {
     title: "Qwen3-ASR 廣東話（香港）",
-    lede: "專為香港廣東話微調，出繁體字。廣東話夾英文都聽得明，好似香港人咁。唔係又一個普通嘅粵語 ASR。",
+    lede: "專為香港人而設，handle 到中英夾雜又會出繁體字嘅廣東話語音識別模型。",
     cards: [
       { size: "1.7B", title: "最準，啱桌面電腦同伺服器" },
       { size: "0.6B", title: "細到可以喺瀏覽器度跑" },

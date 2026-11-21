@@ -9,7 +9,9 @@ export function Hero({ t }: { t: Dict }) {
     <section className="hero" aria-labelledby="hero-title">
       <Canopy seed={7} w={720} h={560} from="right" />
       <div className="wrap">
-        <h1 id="hero-title">{t.hero.title}</h1>
+        <h1 id="hero-title" className="keep-words">
+          {t.hero.title}
+        </h1>
         <div className="hero-sub">
           <p className="lede">{t.hero.lede}</p>
           <div className="actions">
