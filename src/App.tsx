@@ -2,7 +2,6 @@ import { type CSSProperties, lazy, Suspense, useEffect, useState } from "react";
 import { BRAND } from "./brand";
 import { Asr } from "./components/Asr";
 import { AsrPage } from "./components/AsrPage";
-import { Demo } from "./components/Demo";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
@@ -50,7 +49,6 @@ export function App({ locale, page = "home" }: { locale: Locale; page?: Page }) 
           <>
             <Hero t={t} />
             <Asr t={t} locale={locale} />
-            <Demo t={t} />
             <Nest t={t} locale={locale} />
             <UsedBy t={t} />
           </>

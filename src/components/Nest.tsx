@@ -27,7 +27,7 @@ export function Nest({ t, locale }: { t: Dict; locale: Locale }) {
     return set;
   });
   return (
-    <section id="nest" className="section" aria-labelledby="nest-title">
+    <section id="nest" className="section" aria-labelledby="nest-title" data-watch>
       <Crossing />
       <Canopy
         seed={21}
