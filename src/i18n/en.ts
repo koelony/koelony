@@ -2,7 +2,7 @@ import type { Dict } from "./types";
 
 export const en: Dict = {
   meta: {
-    title: "Koelony: open-source models for Hong Kong Cantonese",
+    title: "Koelony: Open-source models for Hong Kong Cantonese",
     description:
       "Open-source speech and language models for Hong Kong Cantonese. Qwen3-ASR fine-tunes (1.7B, 0.6B) that write colloquial Cantonese and keep English in English. GGUF, FP8 and NVFP4 builds.",
     keywords: [
@@ -16,7 +16,7 @@ export const en: Dict = {
       "open source AI",
       "廣東話語音識別",
     ],
-    ogAlt: "Koelony: open-source models for Hong Kong Cantonese",
+    ogAlt: "Koelony: Open-source models for Hong Kong Cantonese",
   },
   skip: "Skip to content",
   nav: {
