@@ -1,9 +1,11 @@
 import type { Dict } from "../i18n";
 import { DEMO_URL } from "../site";
+import { Tape } from "./Tape";
 
 export function Demo({ t }: { t: Dict }) {
   return (
     <section id="demo" className="section band" aria-labelledby="demo-title">
+      <Tape text={t.hero.sample} jyutping={t.hero.sampleJyutping} />
       <div className="wrap split">
         <div>
           <h2 id="demo-title">{t.demo.title}</h2>

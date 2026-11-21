@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import type { Dict } from "../i18n";
 
 export function Nest({ t }: { t: Dict }) {
@@ -8,9 +9,9 @@ export function Nest({ t }: { t: Dict }) {
           <h2 id="nest-title">{t.nest.title}</h2>
           <p className="lede">{t.nest.lede}</p>
         </div>
-        <ul className="roadmap">
-          {t.nest.items.map((it) => (
-            <li key={it.title}>
+        <ul className="roadmap" data-watch>
+          {t.nest.items.map((it, i) => (
+            <li key={it.title} style={{ "--i": i } as CSSProperties}>
               <h3>{it.title}</h3>
               <p className={`status status-${it.status}`}>{t.nest.status[it.status]}</p>
               <p className="roadmap-body">{it.body}</p>

@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import { type CSSProperties, Fragment } from "react";
 import { contourOf } from "../data/tones";
 
 /** Height of one tone level inside the 40 x 48 contour box: level 5 is the top line, 1 the bottom. */
@@ -31,13 +31,16 @@ export function Contour({ strokes, stop }: { strokes?: [number, number][]; stop?
   );
 }
 
-type Token =
+export type Token =
   | { kind: "zi"; text: string; jp?: string }
   | { kind: "word"; text: string }
   | { kind: "rest"; text: string };
 
+/** Position along the staff, for the order its lines rule themselves in (`--i` in styles.css). */
+const nth = (i: number) => ({ "--i": i }) as CSSProperties;
+
 /** Splits a code-switched sentence into Chinese characters, Latin words and punctuation. */
-function tokenize(text: string, jyutping: string): Token[] {
+export function tokenize(text: string, jyutping: string): Token[] {
   const syllables = jyutping.trim().split(/\s+/);
   const han = text.match(/\p{Script=Han}/gu) ?? [];
   // Annotations are only trustworthy if there is exactly one per character.
@@ -72,7 +75,7 @@ export function Melody({
   // On wide screens the sentence breaks at its first pause instead of wherever the row runs out.
   const pause = tokens.findIndex((tok) => tok.kind === "rest");
   return (
-    <figure className="melody" data-melody>
+    <figure className="melody" data-melody data-watch>
       <blockquote className="staff" lang="zh-Hant-HK" data-perch="hero">
         {tokens.map((tok, i) => {
           const key = `${i}${tok.text}`;
@@ -82,6 +85,7 @@ export function Melody({
               <ruby
                 key={key}
                 className="note"
+                style={nth(i)}
                 data-note="zi"
                 data-from={c?.from}
                 data-to={c?.to}
@@ -95,7 +99,7 @@ export function Melody({
           }
           return (
             <Fragment key={key}>
-              <span className={`note note-${tok.kind}`} data-note={tok.kind}>
+              <span className={`note note-${tok.kind}`} style={nth(i)} data-note={tok.kind}>
                 <Contour />
                 <span className="zi" lang={tok.kind === "word" ? "en" : undefined}>
                   {tok.text}
@@ -103,14 +107,14 @@ export function Melody({
               </span>
               {i === pause && i < tokens.length - 1 && (
                 <>
-                  <span className="staff-fill staff-fill-mid" />
+                  <span className="staff-fill staff-fill-mid" style={nth(i + 1)} />
                   <span className="staff-break" />
                 </>
               )}
             </Fragment>
           );
         })}
-        <span className="staff-fill" />
+        <span className="staff-fill" style={nth(tokens.length)} />
       </blockquote>
       <figcaption>{caption}</figcaption>
     </figure>

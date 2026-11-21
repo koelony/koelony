@@ -3,7 +3,7 @@ import { LINKS } from "../site";
 
 export function UsedBy({ t }: { t: Dict }) {
   return (
-    <section className="section section-tight" aria-labelledby="usedby-title">
+    <section className="section section-tight" aria-labelledby="usedby-title" data-watch>
       <div className="wrap split">
         <h2 id="usedby-title">{t.usedBy.title}</h2>
         <div>

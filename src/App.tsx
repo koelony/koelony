@@ -8,6 +8,7 @@ import { Hero } from "./components/Hero";
 import { Nest } from "./components/Nest";
 import { UsedBy } from "./components/UsedBy";
 import { DICTS } from "./i18n";
+import { watchPage } from "./motion";
 import type { Locale } from "./site";
 
 // The koel (and Motion, which only it uses) is not needed to read the page, so it loads after the
@@ -30,6 +31,7 @@ const brandVars = { "--brand-red": BRAND.red } as CSSProperties;
 
 export function App({ locale }: { locale: Locale }) {
   const t = DICTS[locale];
+  useEffect(() => watchPage(), []);
   return (
     <div className="site" style={brandVars}>
       <a className="skip-link" href="#main">

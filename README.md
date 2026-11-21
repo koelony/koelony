@@ -29,9 +29,10 @@ bun run fonts      # re-subset the display font to the characters the headings u
 | Path                                  | What                                                                                                    |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `src/i18n/en.ts`, `src/i18n/zh-hk.ts` | All copy. Add a string to both, and to `src/i18n/types.ts`                                              |
-| `src/data/models.ts`                  | Released checkpoints and benchmark numbers                                                              |
 | `src/data/tones.ts`                   | The six Cantonese tones and their pitch contours                                                        |
-| `src/koel/`                           | The flying koel: artwork, perches, flight along the tone staff                                          |
+| `src/koel/`                           | The flying koel: artwork, perches, flight along the tone staff, its call written on the staff           |
+| `src/motion.ts`                       | Marks what the reader has reached; the Motion block in `src/styles.css` moves it                        |
+| `src/components/Tape.tsx`             | The demo band's tape: sound arriving as ticks and leaving as tone contours                              |
 | `brand/`                              | Official logo files; everything visual is generated from them (see `brand/README.md`)                   |
 | `src/site.ts`                         | URLs (demo, repos, Hugging Face) and locale table                                                       |
 | `src/seo.ts`                          | Per-language `<head>`: title, description, canonical, hreflang, OG, JSON-LD                             |

@@ -4,7 +4,7 @@ import { Logo } from "./Logo";
 
 export function Footer({ t, locale }: { t: Dict; locale: Locale }) {
   return (
-    <footer className="site-footer">
+    <footer className="site-footer" data-watch>
       <div className="wrap footer-grid">
         <div className="footer-about">
           <a className="brand" href={LOCALES[locale].path}>

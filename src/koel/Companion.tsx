@@ -6,7 +6,7 @@ import {
   useMotionValue,
   useReducedMotion,
 } from "motion/react";
-import { useEffect, useRef, useState } from "react";
+import { type CSSProperties, useEffect, useRef, useState } from "react";
 import { KoelArtwork } from "./art";
 
 /**
@@ -17,6 +17,11 @@ import { KoelArtwork } from "./art";
  * syllable is confirmed (`data-on`) as the bird goes over it. Then it lands on the staff's perch
  * and stays there: it does not follow the reader down the page.
  *
+ * Once landed it calls, and the staff takes the call down like it took the sentence: a low note and
+ * a long rise, three times, each a little higher, written in the same strokes and climbing off the
+ * top of the five lines. Nothing says what it is; the strokes die away and the staff is clean again.
+ * It calls once more when the reader comes back to the hero after a while.
+ *
  * It is positioned in page coordinates inside `.site`, so a perched bird scrolls with the page for
  * free. Only transforms are animated. It is loaded and mounted on the client only (see App.tsx);
  * with reduced motion it just sits on the perch.
@@ -24,7 +29,27 @@ import { KoelArtwork } from "./art";
 
 type Pose = "fly" | "perch";
 type Point = { x: number; y: number };
-type Perch = Point & { id: string; face: 1 | -1 };
+type Perch = Point & {
+  id: string;
+  face: 1 | -1;
+  /** Tone level the bird stands on: 5 is the staff's top line, above that are ledger lines. */
+  level: number;
+  /** Top line of the staff it stands on, and the distance between two lines (0 if not a staff). */
+  top: number;
+  rail: number;
+};
+/** Ledger lines, in page coordinates. */
+type Rails = { x0: number; x1: number; ys: number[] };
+type Call = {
+  id: number;
+  rails: Rails | null;
+  /** One "ko-EL": when it starts (ms), the short low note and the long rise, as path data. */
+  notes: { at: number; ko: string; el: string }[];
+};
+
+/** When each of the three calls starts, in ms: a koel speeds up as it climbs. */
+const CALL = [240, 860, 1440];
+const CALL_OVER = 3300;
 type Run = {
   t0: number;
   dur: number;
@@ -50,6 +75,12 @@ const arc = (a: Point, c: Point, b: Point, u: number): Point => {
   };
 };
 
+function Ledger({ rails }: { rails: Rails }) {
+  return rails.ys.map((y) => (
+    <line key={y} className="koel-rail" x1={rails.x0} x2={rails.x1} y1={y} y2={y} />
+  ));
+}
+
 export default function KoelCompanion() {
   const reduce = useReducedMotion();
   return (
@@ -68,6 +99,9 @@ function Flight({ still }: { still: boolean }) {
   const squash = useMotionValue(1);
   const [pose, setPose] = useState<Pose>("fly");
   const [shown, setShown] = useState(false);
+  const [stub, setStub] = useState<Rails | null>(null);
+  const [home, setHome] = useState(false);
+  const [call, setCall] = useState<Call | null>(null);
 
   useEffect(() => {
     const el = layer.current;
@@ -78,7 +112,7 @@ function Flight({ still }: { still: boolean }) {
     let size = el.offsetWidth;
     let pos: Point | null = null;
     let target: string | null = null;
-    let mode: "idle" | "fly" | "melody" | "perched" = "idle";
+    let mode: "idle" | "waiting" | "fly" | "melody" | "perched" = "idle";
     let run: Run | null = null;
     let raf = 0;
     let scrollRaf = 0;
@@ -86,6 +120,9 @@ function Flight({ still }: { still: boolean }) {
     let last = 0;
     let tilt = 0;
     let alive = true;
+    let sung = Number.NEGATIVE_INFINITY;
+    let calls = 0;
+    let stubKey = "";
     /** Where the staff was when the flight over it was planned. */
     let staffBox = "";
     const timers = new Set<number>();
@@ -128,6 +165,10 @@ function Flight({ still }: { still: boolean }) {
       y.set(p.y);
     };
     const perch = (id: string | null) => perches.find((p) => p.id === id);
+    /** Height of a tone level on a perch's staff. Lines are 1px, so their middle is half a pixel in. */
+    const pitch = (p: Perch, level: number) => p.top + 0.5 - (level - 5) * p.rail;
+    const ledger = (p: Perch) =>
+      Array.from({ length: Math.max(0, Math.ceil(p.level) - 5) }, (_, i) => pitch(p, 6 + i));
 
     const measure = () => {
       const origin = site.getBoundingClientRect();
@@ -140,12 +181,19 @@ function Flight({ still }: { still: boolean }) {
         const fx = Number.parseFloat(style.getPropertyValue("--perch-x"));
         const dy = Number.parseFloat(style.getPropertyValue("--perch-y"));
         const facing = node.dataset.perchFace === "right" ? 1 : -1;
+        // On a staff the bird can stand above the top line, on ledger lines (`--perch-level`).
+        const line = node.querySelector(".contour");
+        const rail = line ? (Number.parseFloat(getComputedStyle(line).height) - 1) / 4 : 0;
+        const level = rail ? Number.parseFloat(style.getPropertyValue("--perch-level")) || 5 : 5;
         // Keep the whole bird inside the page: its tail is the long side.
         const tail = size * 0.63;
         const beak = size * 0.33;
         perches.push({
           id: node.dataset.perch ?? "",
           face: facing,
+          level,
+          rail,
+          top: r.top - origin.top,
           x: clamp(
             r.left - origin.left + r.width * (Number.isFinite(fx) ? fx : 1),
             facing > 0 ? tail : beak,
@@ -155,8 +203,24 @@ function Flight({ still }: { still: boolean }) {
           y:
             (node.dataset.perchEdge === "bottom" ? r.bottom - 1 : r.top) -
             origin.top +
-            (Number.isFinite(dy) ? dy : 0),
+            (Number.isFinite(dy) ? dy : 0) -
+            (level - 5) * rail,
         });
+      }
+      // The ledger lines under a bird that stands above the staff: short, and clear of its tail.
+      const hero = perch("hero");
+      const next =
+        hero && hero.level > 5
+          ? {
+              x0: Math.round(hero.x - size * 0.5),
+              x1: Math.round(hero.x - size * 0.08),
+              ys: ledger(hero),
+            }
+          : null;
+      const key = JSON.stringify(next);
+      if (key !== stubKey) {
+        stubKey = key;
+        setStub(next);
       }
     };
 
@@ -205,17 +269,84 @@ function Flight({ still }: { still: boolean }) {
       target = id;
       setPose("perch");
       setShown(true);
+      setHome(true);
       tween(rotate, [0], 220);
       if (face.get() !== p.face) tween(face, [p.face], 260, 140);
       tween(squash, [0.84, 1.06, 1], 480);
     };
 
-    const flyTo = (id: string, hop = false) => {
+    /**
+     * The call, written on the staff the bird stands on, to the left of its beak and ending there.
+     * Where that stretch of staff is free it starts inside the five lines and climbs out of them;
+     * where the row is full of syllables (narrow screens) it is written on the ledger lines above.
+     */
+    const sing = () => {
+      const p = perch("hero");
+      const staff = document.querySelector<HTMLElement>('[data-perch="hero"]');
+      if (!p || !staff || mode !== "perched" || target !== "hero" || p.face > 0 || !p.rail) return;
+      const origin = site.getBoundingClientRect();
+      const box = staff.getBoundingClientRect();
+      const above = p.level > 5;
+      const end = p.x - size * (above ? 0.5 : 0.4);
+      let from = box.left - origin.left;
+      if (!above) {
+        // Not over the row's syllables and words. Punctuation has no tone: its staff is free.
+        for (const note of staff.querySelectorAll<HTMLElement>("[data-note]")) {
+          const r = note.getBoundingClientRect();
+          if (note.dataset.note !== "rest" && Math.abs(r.top - box.top) < 4) {
+            from = Math.max(from, r.right - origin.left + p.rail);
+          }
+        }
+      }
+      const each = Math.min((end - from) / CALL.length, size * 0.6);
+      if (each < 34) return;
+      const start = end - each * CALL.length;
+      // Each call starts higher than the last and rises further: [first low note, step up, rise, more].
+      const [base, up, rise, more] = above ? [6, 0.75, 2.4, 0.4] : [2, 1, 3, 0.5];
+      const n = (v: number) => Math.round(v * 10) / 10;
+      const notes = CALL.map((at, k) => {
+        const x = start + k * each;
+        const low = base + k * up;
+        const a = { x: x + each * 0.34, y: pitch(p, low + 0.55) };
+        const b = { x: x + each * 0.82, y: pitch(p, low + 0.55 + rise + k * more) };
+        // The rise is a swoop, not a ruled line: it leaves level and steepens.
+        const c = { x: a.x + (b.x - a.x) * 0.62, y: a.y + (b.y - a.y) * 0.1 };
+        return {
+          at,
+          ko: `M${n(x)} ${n(pitch(p, low))}L${n(x + each * 0.2)} ${n(pitch(p, low + 0.25))}`,
+          el: `M${n(a.x)} ${n(a.y)}Q${n(c.x)} ${n(c.y)} ${n(b.x)} ${n(b.y)}`,
+        };
+      });
+      sung = performance.now();
+      calls += 1;
+      const id = calls;
+      setCall({
+        id,
+        notes,
+        rails: above
+          ? { x0: Math.round(start - p.rail), x1: Math.round(end), ys: ledger(p) }
+          : null,
+      });
+      for (const at of CALL) {
+        // It dips on the low note and stretches up into the rise.
+        later(() => {
+          if (mode !== "perched" || calls !== id) return;
+          tween(squash, [0.96, 1.07, 1], 480);
+          tween(rotate, [3, -9, 0], 480);
+        }, at);
+      }
+      later(() => setCall((now) => (now?.id === id ? null : now)), CALL_OVER);
+    };
+
+    const flyTo = (id: string, hop = false, then?: () => void) => {
       const p = perch(id);
       if (!p) return;
       target = id;
       mode = "fly";
       setPose("fly");
+      setHome(true);
+      setCall(null);
+      calls += 1;
       for (const id of tweens.values()) cancelAnimationFrame(id);
       squash.set(1);
       const top = viewTop();
@@ -243,7 +374,10 @@ function Flight({ still }: { still: boolean }) {
           const c = { x: (a.x + b.x) / 2, y: Math.min(a.y, b.y) - lift };
           return arc(a, c, b, ease(ms / dur));
         },
-        done: () => land(id),
+        done: () => {
+          land(id);
+          then?.();
+        },
       });
       setShown(true);
     };
@@ -265,8 +399,13 @@ function Flight({ still }: { still: boolean }) {
       let time = 0;
       let rowTop: number | null = null;
       let level: Point | null = null;
+      // The staff lines may still be ruling themselves (a transform), so read each note's own box:
+      // its first row is the staff.
+      const line = staff.querySelector(".contour");
+      const staffH = line ? Number.parseFloat(getComputedStyle(line).height) : 0;
       for (const note of notes) {
-        const box = (note.querySelector(".contour") ?? note).getBoundingClientRect();
+        const whole = note.getBoundingClientRect();
+        const box = { left: whole.left, top: whole.top, width: whole.width, height: staffH };
         const kind = note.dataset.note;
         const from = Number(note.dataset.from ?? 3);
         const to = Number(note.dataset.to ?? from);
@@ -344,7 +483,7 @@ function Flight({ still }: { still: boolean }) {
         done: () => {
           finishMelody();
           measure();
-          flyTo("hero");
+          flyTo("hero", false, () => later(sing, 520));
         },
       });
       return true;
@@ -411,15 +550,36 @@ function Flight({ still }: { still: boolean }) {
         place({ x: p.x, y: p.y });
         setPose("perch");
         setShown(true);
+        setHome(true);
         return;
       }
       const r = staff?.getBoundingClientRect();
-      const inView = r && r.top < window.innerHeight * 0.92 && r.bottom > headerHeight() + 40;
+      if (staff && r && r.top >= window.innerHeight * 0.92) {
+        // Still below the fold (most phones): the sentence waits, unconfirmed, and is flown when
+        // the reader gets to it. `data-live` holds off the stylesheet's own fallback.
+        mode = "waiting";
+        staff.dataset.live = "";
+        arrive.observe(staff);
+        return;
+      }
+      const inView = r && r.bottom > headerHeight() + 40;
       if (!inView || !melody()) {
         if (staff) finishMelody();
         land("hero");
       }
     };
+    const arrive = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || mode !== "waiting") return;
+        arrive.disconnect();
+        measure();
+        if (!melody()) {
+          finishMelody();
+          land("hero");
+        }
+      },
+      { rootMargin: "0px 0px -14% 0px" },
+    );
 
     // Web fonts change the staff's metrics; wait for them (briefly) before reading positions.
     let begun = false;
@@ -435,6 +595,17 @@ function Flight({ still }: { still: boolean }) {
       if (begun) queueMeasure();
     });
     observer.observe(site);
+    // Back at the hero after a while away: it calls again.
+    const back = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting && mode === "perched" && performance.now() - sung > 20000) {
+          later(sing, 500);
+        }
+      },
+      { threshold: 0.6 },
+    );
+    const staff = host();
+    if (!still && staff) back.observe(staff);
     window.addEventListener("resize", queueMeasure);
     if (!still) window.addEventListener("scroll", onScroll, { passive: true });
 
@@ -447,6 +618,8 @@ function Flight({ still }: { still: boolean }) {
       for (const id of tweens.values()) cancelAnimationFrame(id);
       for (const id of timers) window.clearTimeout(id);
       observer.disconnect();
+      back.disconnect();
+      arrive.disconnect();
       window.removeEventListener("resize", queueMeasure);
       window.removeEventListener("scroll", onScroll);
     };
@@ -455,6 +628,46 @@ function Flight({ still }: { still: boolean }) {
   const turn = { scaleX: face, scaleY: squash, rotate };
   return (
     <>
+      {stub && (
+        <svg
+          className="koel-score koel-stub"
+          data-shown={home || undefined}
+          width="1"
+          height="1"
+          aria-hidden="true"
+          focusable="false"
+        >
+          <Ledger rails={stub} />
+        </svg>
+      )}
+      {call && (
+        <svg
+          key={call.id}
+          className="koel-score koel-call"
+          width="1"
+          height="1"
+          aria-hidden="true"
+          focusable="false"
+        >
+          {call.rails && <Ledger rails={call.rails} />}
+          {call.notes.map((note) => (
+            <g key={note.at} style={{ "--at": `${note.at}ms` } as CSSProperties}>
+              <path
+                className="koel-tone"
+                pathLength={1}
+                d={note.ko}
+                style={{ "--at": `${note.at}ms`, "--for": "90ms" } as CSSProperties}
+              />
+              <path
+                className="koel-tone koel-tone-el"
+                pathLength={1}
+                d={note.el}
+                style={{ "--at": `${note.at + 150}ms`, "--for": "300ms" } as CSSProperties}
+              />
+            </g>
+          ))}
+        </svg>
+      )}
       <m.div
         ref={layer}
         className="koel koel-ink"
