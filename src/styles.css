@@ -592,6 +592,43 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
     flex-basis: 100%;
   }
 }
+/*
+ * On phones and small tablets the sentence is set to the width of the screen, so it takes two rows
+ * that break at its pause, as on a desktop: 今朝喺地鐵站等咗成粒鐘， / 個 schedule 完全 delay 晒。
+ * The syllables share the first row evenly; the Jyutping shrinks with them so it never collides.
+ */
+@media (max-width: 899px) {
+  .staff {
+    --zi: clamp(1.15rem, 5.4vw, 1.75rem);
+  }
+  .note {
+    min-width: calc(var(--zi) * 1.25);
+  }
+  /* The contour's drawing would otherwise hold each syllable at its own natural width. */
+  .note .contour {
+    width: 0;
+    min-width: 100%;
+  }
+  .note rt {
+    font-size: clamp(0.5rem, 2.4vw, 0.6875rem);
+  }
+  .note-word .zi {
+    padding-inline: 0.18em;
+  }
+  .note-rest {
+    min-width: calc(var(--zi) * 0.55);
+  }
+  .staff-break {
+    display: block;
+    flex-basis: 100%;
+  }
+}
+/* On a phone the second row's syllables share its spare width with the staff that runs on. */
+@media (max-width: 600px) {
+  .staff-fill {
+    flex-grow: 3;
+  }
+}
 .melody figcaption {
   max-width: 75ch;
   margin-top: 20px;
