@@ -1,5 +1,5 @@
 import type { Dict } from "../i18n";
-import { CHORUS } from "../koel/colony";
+import { CHORUS, FOOTER_RULE } from "../koel/colony";
 import { Roost } from "../koel/Flock";
 import { DEMO_URL, LINKS, LOCALES, type Locale, type Page, pagePath, SITE_NAME } from "../site";
 import { Logo } from "./Logo";
@@ -7,6 +7,7 @@ import { Logo } from "./Logo";
 export function Footer({ t, locale, page }: { t: Dict; locale: Locale; page: Page }) {
   return (
     <footer className="site-footer" data-watch>
+      <Roost on="rule" birds={FOOTER_RULE} />
       <div className="wrap footer-grid">
         <div className="footer-about">
           <a className="brand" href={LOCALES[locale].path}>

@@ -92,9 +92,13 @@ export const SIZES_RULE: BirdSpec[] = [
   { x: "72%", face: -1, size: 0.9, act: "peck nod", every: 3.8, phase: 0.4, wait: 0.5 },
   { x: "30%", size: 0.8, act: "flit", reach: "3em", every: 7.5, phase: 0.7, wait: 0.8 },
 ];
+/** The line between the roadmap and OraType: a busy stretch of the colony. */
 export const USED_BY_RULE: BirdSpec[] = [
+  { x: "12%", from: -1, act: "hop nod", every: 4.2, phase: 0.6 },
+  { x: "calc(12% + 1.5em)", face: -1, size: 0.84, act: "peck nod", every: 3.4, wait: 0.3 },
+  { x: "31%", line: 2, size: 0.86, act: "nod", every: 3.2, phase: 0.2, wait: 0.5, wide: true },
+  { x: "50%", size: 0.84, act: "flit nod", reach: "4.5em", every: 8.5, phase: 0.1, wait: 0.4 },
   { x: "84%", face: -1, lean: 6, act: "peck nod", every: 4, phase: 0.35, wait: 0.2 },
-  { x: "58%", size: 0.84, act: "flit nod", reach: "4.5em", every: 8.5, phase: 0.1, wait: 0.5 },
   {
     x: "calc(84% + 1.5em)",
     size: 0.78,
@@ -105,6 +109,16 @@ export const USED_BY_RULE: BirdSpec[] = [
     wait: 0.4,
     wide: true,
   },
+];
+
+/** The line between OraType and the footer: another stretch, with one sitting in the staff below. */
+export const FOOTER_RULE: BirdSpec[] = [
+  { x: "8%", from: -1, act: "tilt nod", every: 4.4, phase: 0.3 },
+  { x: "calc(8% + 1.6em)", face: -1, size: 0.84, act: "hop nod", every: 4, phase: 0.8, wait: 0.3 },
+  { x: "27%", line: 3, size: 0.82, act: "nod", every: 3.4, phase: 0.5, wait: 0.6, wide: true },
+  { x: "42%", size: 0.86, act: "flit nod", reach: "4em", every: 7.8, phase: 0.4, wait: 0.4 },
+  { x: "64%", line: 2, size: 0.88, act: "peck nod", every: 3.6, phase: 0.1, wait: 0.7 },
+  { x: "88%", face: -1, size: 0.84, act: "patrol", every: 9, phase: 0.6, wait: 0.5, wide: true },
 ];
 
 /** The top edge of the demo band. The second looks down at the pen. */
@@ -136,38 +150,16 @@ export const BAND_EDGE: BirdSpec[] = [
 ];
 
 /**
- * The roadmap. `x` is measured from the model's dot: negative is back along its inked line, positive
- * is ahead of it on the rail. Rows of the same stage take these in turn, so the rows do not match.
- * Released: it has arrived, and others have joined it. In training: one hops on along the rail
- * towards the next stage and back, one works at the line. Research: one keeps trying to fly on to
- * the next stage and coming back.
+ * The roadmap: one bird a row at most, so the tracks stay readable. `x` is measured from the
+ * model's dot: negative is back along its inked line, positive is ahead of it on the rail. Rows of
+ * the same stage take these in turn. Released: it has arrived. In training: one hops on along the
+ * rail and back, one works at its line. Research: one keeps trying to fly on to the next stage.
  */
 export const TRACK: Record<Status, BirdSpec[][]> = {
-  released: [
-    [
-      { x: "-1.05em", from: -1, act: "hop nod", every: 4, phase: 0.3 },
-      {
-        x: "-3.2em",
-        face: -1,
-        size: 0.84,
-        lean: -10,
-        act: "turn nod",
-        every: 5.5,
-        phase: 0.2,
-        wait: 0.4,
-      },
-      { x: "-5.4em", size: 0.78, act: "peck", every: 3.4, phase: 0.6, wait: 0.7 },
-    ],
-  ],
+  released: [[{ x: "-1.05em", from: -1, act: "hop nod", every: 4.4, phase: 0.3 }]],
   training: [
-    [
-      { x: "0.95em", from: -1, act: "patrol nod", every: 8 },
-      { x: "-2.4em", size: 0.8, act: "peck nod", every: 3.6, phase: 0.5, wait: 0.3 },
-    ],
-    [
-      { x: "-1.15em", from: -1, lean: 4, act: "peck", every: 3.2, phase: 0.5 },
-      { x: "1.2em", face: -1, size: 0.82, act: "hop nod", every: 4.4, phase: 0.2, wait: 0.3 },
-    ],
+    [{ x: "0.95em", from: -1, act: "patrol nod", every: 8 }],
+    [{ x: "-1.15em", from: -1, lean: 4, act: "peck", every: 3.6, phase: 0.5 }],
   ],
   research: [
     [
@@ -181,19 +173,8 @@ export const TRACK: Record<Status, BirdSpec[][]> = {
         phase: 0.6,
       },
     ],
-    [{ x: "-1.1em", face: -1, size: 0.86, act: "hop nod", every: 4.2, phase: 0.1 }],
-    [
-      { x: "-1em", from: -1, size: 0.9, look: 14, act: "tilt nod", every: 4.6, phase: 0.1 },
-      {
-        x: "1.3em",
-        size: 0.8,
-        act: "flit",
-        reach: "3em",
-        every: 8,
-        phase: 0.3,
-        wait: 0.4,
-      },
-    ],
+    [],
+    [{ x: "-1em", from: -1, size: 0.9, look: 14, act: "tilt nod", every: 4.6, phase: 0.1 }],
   ],
 };
 
