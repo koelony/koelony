@@ -296,17 +296,30 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
     background-color 0.12s,
     color 0.12s;
 }
+/*
+ * The primary action is the koel's eye red, the one place it is bigger than a dot. Its label is
+ * always white, in both themes: white on this red is about 5.4:1, black on it would fail.
+ */
 .btn-solid {
-  background: var(--ink);
-  color: var(--paper);
+  border-color: var(--eye);
+  background: var(--eye);
+  color: #fff;
 }
-.btn-solid:hover,
+.btn-solid:hover {
+  --eye-deep: color-mix(in srgb, var(--eye) 80%, #000);
+  border-color: var(--eye-deep);
+  background: var(--eye-deep);
+}
+.btn-solid:active {
+  --eye-deeper: color-mix(in srgb, var(--eye) 64%, #000);
+  border-color: var(--eye-deeper);
+  background: var(--eye-deeper);
+}
 .btn-line:active {
   background: var(--paper);
   color: var(--ink);
 }
-.btn-line:hover,
-.btn-solid:active {
+.btn-line:hover {
   background: var(--ink);
   color: var(--paper);
 }
