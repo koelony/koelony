@@ -1,4 +1,5 @@
 import type { Dict } from "../i18n";
+import { Crossing } from "../koel/Flock";
 import { DEMO_URL } from "../site";
 import { Melody } from "./Staff";
 
@@ -14,6 +15,10 @@ export function Hero({ t }: { t: Dict }) {
               {t.hero.ctaDemo}
             </a>
           </div>
+        </div>
+        {/* A far flock crosses the gap between the words and the staff, again and again. */}
+        <div className="hero-sky">
+          <Crossing />
         </div>
         <Melody
           text={t.hero.sample}

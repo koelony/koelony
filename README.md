@@ -33,6 +33,7 @@ bun run fonts      # re-subset the display font to the characters the headings u
 | `src/components/Stars.tsx`            | The ASR repo button with its GitHub star count (fetched at build, refreshed in the browser)             |
 | `src/data/tones.ts`                   | The six Cantonese tones and their pitch contours                                                        |
 | `src/koel/`                           | The flying koel: artwork, perches, flight along the tone staff, its call written on the staff           |
+| `src/koel/colony.ts`                  | Where every little koel of the colony stands (drawn by `Flock.tsx`, moved by `src/styles.css`)          |
 | `src/motion.ts`                       | Marks what the reader has reached; the Motion block in `src/styles.css` moves it                        |
 | `src/components/Tape.tsx`             | The demo band's tape: sound arriving as ticks and leaving as tone contours                              |
 | `brand/`                              | Official logo files; everything visual is generated from them (see `brand/README.md`)                   |

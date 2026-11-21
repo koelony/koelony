@@ -63,7 +63,8 @@ export const LITTLE = {
   beak: measured
     ? "M370.83 72.241A207.824 207.824 0 0 1 466.722 78.843A115.458 115.458 0 0 0 389.83 111.85L332.2 115.14Z"
     : null,
-  // The head turns about its centre, (332.2, 115.14): keep `.b-head` in styles.css in step.
+  /** Centre of the head: the beak and eye turn about it. Keep `.b-head` in styles.css in step. */
+  pivot: { x: 332.2, y: 115.14 },
   /** At thirty-odd pixels the official eye is a pixel wide, so the little birds get a bigger one. */
   eye: PERCHED.eye && { ...PERCHED.eye, r: PERCHED.eye.r * 1.4 },
   flyEye: { ...FLYING.eye, r: FLYING.eye.r * 1.25 },

@@ -1,4 +1,6 @@
 import type { Dict } from "../i18n";
+import { HEADER } from "../koel/colony";
+import { Roost } from "../koel/Flock";
 import { LINKS, LOCALES, type Locale, type Page, pagePath } from "../site";
 import { Logo } from "./Logo";
 
@@ -8,6 +10,7 @@ export function Header({ t, locale, page }: { t: Dict; locale: Locale; page: Pag
   const home = page === "home" ? "" : LOCALES[locale].path;
   return (
     <header className="site-header">
+      <Roost on="floor" birds={HEADER} />
       <div className="wrap header-row">
         <a className="brand" href={LOCALES[locale].path}>
           <Logo height={36} />

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { BENCHMARKS, CHECKPOINTS } from "../data/models";
 import type { Dict } from "../i18n";
+import { ASR_PAGE } from "../koel/colony";
+import { Crossing, Roost } from "../koel/Flock";
 import { LINKS } from "../site";
 import { Size } from "./Asr";
 import { Demo } from "./Demo";
@@ -95,11 +97,13 @@ export function AsrPage({ t }: { t: Dict }) {
       </section>
 
       <section id="models" className="section" aria-labelledby="models-title" data-watch>
+        <Roost on="rule" birds={ASR_PAGE.models} />
         <div className="wrap">
           <h2 id="models-title">{p.modelsTitle}</h2>
           <ul className="models models-detail" data-watch>
             {p.models.map((m, i) => (
               <li key={m.size} className="model">
+                {i === 0 && <Roost on="rule" birds={ASR_PAGE.sizes} />}
                 <Size text={m.size} index={i} />
                 <h3>
                   {m.title} <span className="model-version">{m.badge}</span>
@@ -112,6 +116,8 @@ export function AsrPage({ t }: { t: Dict }) {
       </section>
 
       <section id="benchmarks" className="section" aria-labelledby="bench-title" data-watch>
+        <Roost on="rule" birds={ASR_PAGE.bench} />
+        <Crossing />
         <div className="wrap">
           <h2 id="bench-title">{p.benchTitle}</h2>
           <ul className="findings">
@@ -125,6 +131,7 @@ export function AsrPage({ t }: { t: Dict }) {
 
       {/* Unnamed on purpose: the table inside is the region named by this heading. */}
       <section id="weights" className="section" data-watch>
+        <Roost on="rule" birds={ASR_PAGE.weights} />
         <div className="wrap">
           <h2 id="formats-title">{p.formatsTitle}</h2>
           {/* biome-ignore lint/a11y/noNoninteractiveTabindex: a region that scrolls sideways on phones has to be reachable by keyboard */}

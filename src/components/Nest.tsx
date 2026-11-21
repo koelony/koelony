@@ -1,6 +1,8 @@
 import type { CSSProperties } from "react";
 import type { Dict } from "../i18n";
 import type { Status } from "../i18n/types";
+import { TRACK } from "../koel/colony";
+import { Bird, Crossing } from "../koel/Flock";
 import { type Locale, pagePath } from "../site";
 
 /** Left to right on the track: how far each model has come. */
@@ -15,8 +17,17 @@ export function Nest({ t, locale }: { t: Dict; locale: Locale }) {
   const items = [...t.nest.items].sort(
     (a, b) => STAGES.indexOf(b.status) - STAGES.indexOf(a.status),
   );
+  // Rows of one stage take that stage's birds in turn (koel/colony.ts).
+  const turn: Record<Status, number> = { research: 0, training: 0, released: 0 };
+  const birds = items.map((it) => {
+    const sets = TRACK[it.status];
+    const set = sets[turn[it.status] % sets.length];
+    turn[it.status] += 1;
+    return set;
+  });
   return (
     <section id="nest" className="section" aria-labelledby="nest-title">
+      <Crossing />
       <div className="wrap">
         <div className="section-head">
           <h2 id="nest-title">{t.nest.title}</h2>
@@ -45,6 +56,9 @@ export function Nest({ t, locale }: { t: Dict; locale: Locale }) {
                 <div className="track" aria-hidden="true">
                   <span className="track-line" />
                   <span className="track-dot" />
+                  {birds[i].map((b) => (
+                    <Bird key={b.x} {...b} />
+                  ))}
                 </div>
               </li>
             ))}

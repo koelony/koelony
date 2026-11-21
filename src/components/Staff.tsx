@@ -1,5 +1,7 @@
 import { type CSSProperties, Fragment } from "react";
 import { contourOf } from "../data/tones";
+import { HERO } from "../koel/colony";
+import { Roost } from "../koel/Flock";
 
 /** Height of one tone level inside the 40 x 48 contour box: level 5 is the top line, 1 the bottom. */
 const levelY = (level: number) => ((5 - level) * 48) / 4;
@@ -114,7 +116,10 @@ export function Melody({
             </Fragment>
           );
         })}
-        <span className="staff-fill" style={nth(tokens.length)} />
+        {/* The free end of the last row: where the colony lands once the koel has called. */}
+        <span className="staff-fill staff-end" style={nth(tokens.length)}>
+          <Roost on="late" birds={HERO} />
+        </span>
       </blockquote>
       <figcaption>{caption}</figcaption>
     </figure>

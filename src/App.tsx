@@ -9,6 +9,7 @@ import { Hero } from "./components/Hero";
 import { Nest } from "./components/Nest";
 import { UsedBy } from "./components/UsedBy";
 import { DICTS } from "./i18n";
+import { KoelSprite } from "./koel/Flock";
 import { watchPage } from "./motion";
 import type { Locale, Page } from "./site";
 
@@ -38,6 +39,7 @@ export function App({ locale, page = "home" }: { locale: Locale; page?: Page }) 
       <a className="skip-link" href="#main">
         {t.skip}
       </a>
+      <KoelSprite />
       <Header t={t} locale={locale} page={page} />
       <main id="main">
         {page === "asr" ? (

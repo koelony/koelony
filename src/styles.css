@@ -1,6 +1,9 @@
 /*
  * Koelony. A ruled sheet in black and white: one left edge, black hairlines, type set in a Hong Kong
  * rounded gothic. Red is spent only where the logo spends it, on an eye-sized dot.
+ *
+ * The sheet is manuscript paper (every rule is the top line of a five-line staff) and a colony of
+ * little koels stands on its lines: see "The colony" and the staff under `.section` below.
  */
 
 /* Chiron GoRound TC (SIL OFL), cut down by `bun run fonts` to the characters the display copy uses. */
@@ -39,6 +42,8 @@
   --soft: #595959;
   --hair: #c9c9c9;
   --mid: #767676;
+  /* The sheet's own printed ruling: fainter than a hairline, the lines nothing has been written on. */
+  --rule: #dcdcdc;
   --eye: var(--brand-red, #d0201a);
   --display:
     "Chiron GoRound TC", "PingFang HK", "Noto Sans HK", "Microsoft JhengHei", system-ui, sans-serif;
@@ -47,6 +52,8 @@
     "Microsoft JhengHei", sans-serif;
   --gutter: clamp(16px, 4vw, 48px);
   --koel-size: clamp(92px, 60px + 6vw, 148px);
+  /* The little koels of the colony: about a quarter of the big one. */
+  --bird: clamp(30px, 23px + 1.3vw, 42px);
   /* Height of the five-line staff: the hero transcript and the demo band's tape share it. */
   --staff-h: clamp(34px, 22px + 2.4vw, 52px);
   color-scheme: light;
@@ -66,6 +73,7 @@
     --soft: #b0b0b0;
     --hair: #404040;
     --mid: #8c8c8c;
+    --rule: #2e2e2e;
     color-scheme: dark;
   }
   .band {
@@ -346,8 +354,39 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
   background: var(--ink);
   transform-origin: 0 50%;
 }
+/*
+ * The sheet is manuscript paper. Under every rule four more lines are printed, so each rule is the
+ * top line of a five-line staff like the hero's: the inked one. They sit in the section's top
+ * padding, never behind type, and the colony stands on them (see "The colony"). The staff's gap is
+ * whole pixels, so the lines stay crisp.
+ */
+.section:not(.band),
+.site-footer {
+  --g: calc(var(--staff-h) / 4);
+  background:
+    linear-gradient(
+      to bottom,
+      transparent calc(var(--g) - 1px),
+      var(--rule) 0 var(--g),
+      transparent 0 calc(2 * var(--g) - 1px),
+      var(--rule) 0 calc(2 * var(--g)),
+      transparent 0 calc(3 * var(--g) - 1px),
+      var(--rule) 0 calc(3 * var(--g)),
+      transparent 0 calc(4 * var(--g) - 1px),
+      var(--rule) 0 calc(4 * var(--g))
+    )
+    0 0 / 100% calc(4 * var(--g)) no-repeat;
+}
+@supports (width: round(down, 1.5px, 1px)) {
+  .section:not(.band),
+  .site-footer {
+    --g: round(down, calc(var(--staff-h) / 4), 1px);
+  }
+}
 .section-tight {
   padding-block: clamp(48px, 6vw, 80px);
+  /* Room for the staff under the rule, then the heading. */
+  padding-top: calc(var(--staff-h) + clamp(24px, 3vw, 40px));
 }
 .band {
   background: var(--paper);
@@ -446,7 +485,8 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
 }
 .contour,
 .staff-fill,
-.tape-done {
+.tape-done,
+.chorus {
   background:
     linear-gradient(var(--hair), var(--hair)) 0 0 / 100% 1px no-repeat,
     linear-gradient(var(--hair), var(--hair)) 0 25% / 100% 1px no-repeat,
@@ -1016,7 +1056,7 @@ tbody :is(th, td) {
 
 /* Footer */
 .site-footer {
-  padding-block: 56px 72px;
+  padding-block: calc(var(--staff-h) + clamp(28px, 3vw, 40px)) 72px;
 }
 .footer-grid {
   display: grid;
@@ -1158,6 +1198,155 @@ tbody :is(th, td) {
 }
 
 /*
+ * The colony (koel/Flock.tsx, placed in koel/colony.ts). Little koels standing on the page's lines:
+ * the same drawing as the big one, a quarter of its size. Each is a box whose feet are at
+ * (`--x`, its line), exactly like `.koel`; `--f` is the way it faces, `--r` how it holds itself and
+ * `--n` where its beak points. A roost is the line: a strip of no height laid along it.
+ * All of it is decoration: nothing here takes a click or a word.
+ */
+.koel-sprite {
+  position: absolute;
+}
+.roost,
+.flock {
+  position: absolute;
+  right: 0;
+  left: 0;
+  display: block;
+  height: 1px;
+  pointer-events: none;
+}
+.bird {
+  --b: calc(var(--bird) * var(--s, 1));
+  position: absolute;
+  top: calc(var(--l, 0) * var(--g, 0px));
+  left: var(--x, 50%);
+  width: var(--b);
+  height: var(--b);
+  margin: calc(var(--b) * -0.645) 0 0 calc(var(--b) * -0.621);
+  color: var(--ink);
+  /* One em is one bird: hops and flights are measured in it. */
+  font-size: var(--b);
+  pointer-events: none;
+}
+.bird svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: currentColor;
+  transform-origin: 62.1% 64.5%;
+  scale: var(--f, 1) 1;
+  rotate: calc(var(--f, 1) * var(--r, 0deg));
+}
+/* The feet, and the middle of the head, in the drawing's own 512 units (koel/art.tsx). */
+.b-perch,
+.b-fly {
+  transform-box: view-box;
+  transform-origin: 318px 330px;
+}
+.b-head {
+  transform: rotate(var(--n, 0deg));
+  transform-box: view-box;
+  transform-origin: 332.2px 115.14px;
+}
+/* Standing is the resting pose; the flying one shows only on the way in (see "Motion"). */
+.b-fly {
+  opacity: 0;
+  scale: var(--u, 1) 1;
+}
+
+/* On a rule: feet on its top edge. A bird further down the staff sits `--l` lines lower. */
+.roost-rule {
+  top: -2px;
+}
+/* On the demo band's top edge. Over the black they are its negative, like the big koel. */
+.roost-edge {
+  top: 0;
+}
+.bird-ink {
+  color: #fff;
+  mix-blend-mode: difference;
+}
+/* On the header's bottom rule: a few that stay with the reader down the page (wide screens only). */
+.roost-floor {
+  top: 100%;
+}
+.bird-xl {
+  display: none;
+}
+@media (min-width: 1100px) {
+  .bird-xl {
+    display: block;
+  }
+}
+/* On a staff: the top line is half a pixel down, and the lines are a quarter of the staff apart. */
+.roost-staff,
+.roost-late {
+  --g: calc((var(--staff-h) - 1px) / 4);
+  top: 0.5px;
+}
+/* The end of the hero staff has birds only where the last row leaves it room. */
+.staff-end {
+  position: relative;
+  container: staff-end / inline-size;
+}
+.roost-late > .bird {
+  display: none;
+}
+@container staff-end (min-width: 76px) {
+  .roost-late > .bird:nth-child(1) {
+    display: block;
+  }
+}
+@container staff-end (min-width: 150px) {
+  .roost-late > .bird:nth-child(2) {
+    display: block;
+  }
+}
+@container staff-end (min-width: 250px) {
+  .roost-late > .bird:nth-child(3) {
+    display: block;
+  }
+}
+/* On a roadmap track: `--x` is measured from the model's dot. */
+.track > .bird {
+  top: 50%;
+  left: calc(var(--at) + var(--x));
+  z-index: 3;
+}
+/* The staff that closes the page, with headroom for the bird on its top line. */
+.chorus {
+  position: relative;
+  height: var(--staff-h);
+  margin-top: clamp(64px, 8vw, 96px);
+}
+/* A few a long way off, in the gap above a section. Without motion they hang there in mid-air. */
+.flock {
+  top: 0;
+  height: clamp(64px, 9vw, 128px);
+}
+.bird-far {
+  top: var(--y, 50%);
+}
+.bird-far .b-fly {
+  opacity: 1;
+}
+/* The hero's far flock crosses the gap between the words and the staff. */
+.hero-sky {
+  position: relative;
+  height: 0;
+}
+.hero-sky > .flock {
+  top: clamp(8px, 1.2vw, 18px);
+  height: clamp(44px, 4.6vw, 60px);
+}
+@media (max-width: 700px) {
+  .bird-wide {
+    display: none;
+  }
+}
+
+/*
  * Motion. One idea runs down the page: sound becomes lines on the sheet. Lines rule themselves
  * when the reader reaches them and what a line passes is confirmed, the way the koel confirms the
  * hero sentence; words never slide or fade in. All of it is skipped with reduced motion, and none of
@@ -1273,13 +1462,217 @@ tbody :is(th, td) {
     animation-timing-function: cubic-bezier(0.45, 0, 0.9, 0.6);
   }
 
+  /*
+   * The colony. A bird is not there until its line has been reached (the hero's until the big koel
+   * has sung the sentence), then flies in from off the sheet, on the side it faces or tail first
+   * (`--u`), and lands: the flying pose until it touches down, then the standing one, with a dip.
+   * `--w` is how long it waits; `--k` is each bird's own share of that, set in koel/colony.ts.
+   */
+  .bird {
+    --w: calc(0.7s + var(--k, 0s));
+    --t: 1.05s;
+    --far: 110vw;
+    --up: -2.4em;
+  }
+  .roost-late > .bird {
+    /* Long enough for the koel to reach its perch and call three times. */
+    --w: calc(3.7s + var(--k, 0s));
+    --far: 62vw;
+    --up: -1.2em;
+  }
+  .roost-staff > .bird {
+    /* Keyed to the footer, whose top is reached well before its last staff is. */
+    --w: calc(1.1s + var(--k, 0s));
+  }
+  .track > .bird {
+    /* After its model's line has run out and the dot has landed. */
+    --w: calc(var(--i, 0) * 0.13s + var(--stage, 0) * 0.25s + 0.95s + var(--k, 0s));
+    --far: 70vw;
+    --up: -0.8em;
+  }
+  /* The far flock waits off the left edge and crosses each time its gap comes on screen. */
+  .js .flock > .bird {
+    --t: 13s;
+    --w: var(--k, 0s);
+    left: 0;
+    translate: -3em 0;
+  }
+  /* Across, then a pause off the sheet, then across again, for as long as the gap is on screen. */
+  .js .flock[data-in] > .bird {
+    animation:
+      flock-across var(--t) linear var(--w) infinite,
+      flock-rise var(--t) ease-in-out var(--w) infinite;
+  }
+  .js .flock[data-in] .k-wing {
+    animation: k-flap 0.17s cubic-bezier(0.4, 0, 0.6, 1) var(--w) infinite alternate;
+  }
+
+  .js
+    :is(
+      .roost[data-watch]:not([data-seen]),
+      .roadmap:not([data-seen]) .track,
+      .site-footer:not([data-seen]) .roost-staff,
+      .melody:not([data-done]) .roost-late
+    )
+    > .bird {
+    opacity: 0;
+  }
+  .js
+    :is(
+      .roost[data-seen],
+      .roadmap[data-seen] .track,
+      .site-footer[data-seen] .roost-staff,
+      .melody[data-done] .roost-late
+    )
+    > .bird {
+    animation:
+      bird-in var(--t) cubic-bezier(0.2, 0.7, 0.25, 1) var(--w) both,
+      bird-drop var(--t) cubic-bezier(0.6, 0, 0.3, 1) var(--w) both,
+      b-breathe var(--bp, 2.2s) ease-in-out var(--bd, 0s) infinite;
+    animation-play-state: running, running, paused;
+  }
+  .js
+    :is(
+      .roost[data-seen],
+      .roadmap[data-seen] .track,
+      .site-footer[data-seen] .roost-staff,
+      .melody[data-done] .roost-late
+    )
+    > .bird
+    .b-fly {
+    animation: pose-fly var(--t) steps(1, end) var(--w) both;
+  }
+  .js
+    :is(
+      .roost[data-seen],
+      .roadmap[data-seen] .track,
+      .site-footer[data-seen] .roost-staff,
+      .melody[data-done] .roost-late
+    )
+    > .bird
+    .b-perch {
+    animation:
+      pose-perch var(--t) steps(1, end) var(--w) both,
+      bird-land 0.42s cubic-bezier(0.3, 0.6, 0.2, 1) calc(var(--w) + var(--t)) backwards;
+  }
+  .js
+    :is(
+      .roost[data-seen],
+      .roadmap[data-seen] .track,
+      .site-footer[data-seen] .roost-staff,
+      .melody[data-done] .roost-late
+    )
+    > .bird
+    .k-wing {
+    animation: k-flap 0.15s cubic-bezier(0.4, 0, 0.6, 1) var(--w) 8 alternate;
+  }
+  /* Flitting: up off the line, along it and down, and later round and back (see b-flit). */
+  .js
+    :is(
+      .roost[data-seen],
+      .roadmap[data-seen] .track,
+      .site-footer[data-seen] .roost-staff,
+      .melody[data-done] .roost-late
+    )
+    > .bird[data-act~="flit"]
+    .b-fly {
+    animation:
+      pose-fly var(--t) steps(1, end) var(--w) both,
+      flit-fly var(--p, 8s) linear var(--d, 0s) infinite paused;
+  }
+  .js
+    :is(
+      .roost[data-seen],
+      .roadmap[data-seen] .track,
+      .site-footer[data-seen] .roost-staff,
+      .melody[data-done] .roost-late
+    )
+    > .bird[data-act~="flit"]
+    .b-perch {
+    animation:
+      pose-perch var(--t) steps(1, end) var(--w) both,
+      bird-land 0.42s cubic-bezier(0.3, 0.6, 0.2, 1) calc(var(--w) + var(--t)) backwards,
+      flit-perch var(--p, 8s) linear var(--d, 0s) infinite paused;
+  }
+  .js
+    :is(
+      .roost[data-seen],
+      .roadmap[data-seen] .track,
+      .site-footer[data-seen] .roost-staff,
+      .melody[data-done] .roost-late
+    )
+    > .bird[data-act~="flit"]
+    .k-wing {
+    animation: k-flap 0.15s cubic-bezier(0.4, 0, 0.6, 1) var(--w) infinite alternate;
+  }
+
+  /*
+   * What they do once they are down, each in its own time (`--p`) and out of step with the others
+   * (`--d`): a nod of the head, a cock of the body, a peck at the line, a hop, a turn about, or
+   * (in training on the roadmap) hopping on along the rail and back. Only while their line is on
+   * screen.
+   */
+  .bird[data-act~="nod"] .b-head {
+    animation: b-nod var(--p, 9s) linear var(--d, 0s) infinite paused;
+  }
+  .bird[data-act~="tilt"] svg {
+    animation: b-tilt var(--p, 9s) linear var(--d, 0s) infinite paused;
+  }
+  .bird[data-act~="peck"] svg {
+    animation: b-peck var(--p, 9s) linear var(--d, 0s) infinite paused;
+  }
+  .bird[data-act~="hop"] svg {
+    animation: b-hop var(--p, 9s) linear var(--d, 0s) infinite paused;
+  }
+  .bird[data-act~="turn"] svg {
+    animation: b-turn var(--p, 9s) linear var(--d, 0s) infinite paused;
+  }
+  .bird[data-act~="patrol"] svg {
+    animation: b-patrol var(--p, 13s) linear var(--d, 0s) infinite paused;
+  }
+  .bird[data-act~="flit"] svg {
+    animation: b-flit var(--p, 8s) linear var(--d, 0s) infinite paused;
+  }
+  .js
+    :is(
+      .roost[data-in],
+      .roadmap[data-in] .track,
+      .site-footer[data-in] .roost-staff,
+      .melody[data-in] .roost-late
+    )
+    > .bird,
+  :is(
+      .roost[data-in],
+      .roadmap[data-in] .track,
+      .site-footer[data-in] .roost-staff,
+      .melody[data-in] .roost-late
+    )
+    > .bird
+    :is(svg, .b-head, .b-fly, .b-perch) {
+    animation-play-state: running;
+  }
+  /* The flit's pose changes are set by a weightier rule above, so they are started by one too. */
+  .js
+    :is(
+      .roost[data-in],
+      .roadmap[data-in] .track,
+      .site-footer[data-in] .roost-staff,
+      .melody[data-in] .roost-late
+    )
+    > .bird[data-act~="flit"]
+    :is(.b-fly, .b-perch) {
+    animation-play-state: running;
+  }
+
   /* If the script never arrives, everything it would have started is simply shown. */
   .js:not(.watch) [data-watch]::before,
   .js:not(.watch) [data-watch] :is(.contour, .staff-fill),
   .js:not(.watch) [data-watch] :is(.model)::before,
   .js:not(.watch) [data-watch] :is(.track-line, .track-dot),
   .js:not(.watch) [data-watch] li::after,
-  .js:not(.watch) [data-watch] .ch {
+  .js:not(.watch) [data-watch] .ch,
+  .js:not(.watch) :is(.roost[data-watch], .roadmap .track, .site-footer .roost-staff) > .bird,
+  .js .melody:not([data-live], [data-done]) .roost-late > .bird {
     animation: confirm 0.4s 4s both;
   }
 }
@@ -1336,5 +1729,279 @@ tbody :is(th, td) {
 @keyframes call-out {
   to {
     opacity: 0;
+  }
+}
+/* The colony coming in: across (and into sight at the sheet's edge), down, and the change of pose. */
+@keyframes bird-in {
+  from {
+    opacity: 0;
+    translate: calc(var(--f, 1) * var(--u, 1) * -1 * var(--far)) 0;
+  }
+  3% {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+@keyframes bird-drop {
+  from {
+    transform: translateY(var(--up));
+  }
+}
+@keyframes pose-fly {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+@keyframes pose-perch {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes bird-land {
+  from {
+    transform: scaleY(0.8);
+  }
+  45% {
+    transform: scaleY(1.08);
+  }
+}
+@keyframes flock-across {
+  0% {
+    translate: -3em 0;
+  }
+  58%,
+  100% {
+    translate: calc(100vw + 3em) 0;
+  }
+}
+@keyframes flock-rise {
+  0% {
+    transform: none;
+  }
+  29% {
+    transform: translateY(-1.1em);
+  }
+  58%,
+  100% {
+    transform: translateY(-0.4em);
+  }
+}
+/* Never dead still: a slow bob from the feet, each bird at its own pace (`--bp`). */
+@keyframes b-breathe {
+  0%,
+  100% {
+    scale: 1 1;
+  }
+  50% {
+    scale: 1.035 0.955;
+  }
+}
+/*
+ * Flit: a hop up off the line, a short flight along it (`--fd`), down, a look about, round, and
+ * back the same way. Its pose (flying while in the air) is flit-fly / flit-perch, in step with it.
+ */
+@keyframes b-flit {
+  0%,
+  40% {
+    translate: 0 0;
+    scale: var(--f, 1) 1;
+  }
+  44% {
+    translate: calc(var(--f, 1) * var(--fd, 3em) * 0.5) -0.9em;
+  }
+  48%,
+  78% {
+    translate: calc(var(--f, 1) * var(--fd, 3em)) 0;
+    scale: var(--f, 1) 1;
+  }
+  78.5%,
+  87.5% {
+    scale: calc(var(--f, 1) * -1) 1;
+  }
+  82.5% {
+    translate: calc(var(--f, 1) * var(--fd, 3em) * 0.5) -0.9em;
+  }
+  87%,
+  100% {
+    translate: 0 0;
+  }
+  88%,
+  100% {
+    scale: var(--f, 1) 1;
+  }
+}
+@keyframes flit-fly {
+  0%,
+  39.9%,
+  48%,
+  77.9%,
+  87%,
+  100% {
+    opacity: 0;
+  }
+  40%,
+  47.9%,
+  78%,
+  86.9% {
+    opacity: 1;
+  }
+}
+@keyframes flit-perch {
+  0%,
+  39.9%,
+  48%,
+  77.9%,
+  87%,
+  100% {
+    opacity: 1;
+  }
+  40%,
+  47.9%,
+  78%,
+  86.9% {
+    opacity: 0;
+  }
+}
+/* Birds move in jerks: each of these holds still, moves in a tenth of a second or two, holds again. */
+@keyframes b-nod {
+  0%,
+  18%,
+  46%,
+  68%,
+  82%,
+  100% {
+    transform: rotate(var(--n, 0deg));
+  }
+  20%,
+  44% {
+    transform: rotate(calc(var(--n, 0deg) - 24deg));
+  }
+  70%,
+  80% {
+    transform: rotate(calc(var(--n, 0deg) + 12deg));
+  }
+}
+@keyframes b-tilt {
+  0%,
+  30%,
+  61%,
+  100% {
+    rotate: calc(var(--f, 1) * var(--r, 0deg));
+  }
+  33%,
+  58% {
+    rotate: calc(var(--f, 1) * (var(--r, 0deg) - 13deg));
+  }
+}
+@keyframes b-peck {
+  0%,
+  60%,
+  69%,
+  100% {
+    rotate: calc(var(--f, 1) * var(--r, 0deg));
+  }
+  62%,
+  66% {
+    rotate: calc(var(--f, 1) * (var(--r, 0deg) + 30deg));
+  }
+  64% {
+    rotate: calc(var(--f, 1) * (var(--r, 0deg) + 9deg));
+  }
+}
+@keyframes b-hop {
+  0%,
+  46%,
+  50%,
+  54%,
+  58%,
+  100% {
+    translate: 0 0;
+  }
+  48%,
+  56% {
+    translate: 0 -0.2em;
+  }
+}
+@keyframes b-turn {
+  0%,
+  54.9%,
+  82%,
+  100% {
+    scale: var(--f, 1) 1;
+  }
+  55%,
+  81.9% {
+    scale: calc(var(--f, 1) * -1) 1;
+  }
+}
+/* Three hops along the rail, a look, round, three hops back, round again. */
+@keyframes b-patrol {
+  0%,
+  7% {
+    translate: 0 0;
+    scale: 1 1;
+  }
+  8.25% {
+    translate: 0.21em -0.2em;
+  }
+  9.5%,
+  15% {
+    translate: 0.42em 0;
+  }
+  16.25% {
+    translate: 0.63em -0.2em;
+  }
+  17.5%,
+  23% {
+    translate: 0.84em 0;
+  }
+  24.25% {
+    translate: 1.05em -0.2em;
+  }
+  25.5%,
+  47% {
+    translate: 1.26em 0;
+    scale: 1 1;
+  }
+  47.01%,
+  51% {
+    translate: 1.26em 0;
+    scale: -1 1;
+  }
+  52.25% {
+    translate: 1.05em -0.2em;
+  }
+  53.5%,
+  59% {
+    translate: 0.84em 0;
+  }
+  60.25% {
+    translate: 0.63em -0.2em;
+  }
+  61.5%,
+  67% {
+    translate: 0.42em 0;
+  }
+  68.25% {
+    translate: 0.21em -0.2em;
+  }
+  69.5%,
+  90% {
+    translate: 0 0;
+    scale: -1 1;
+  }
+  90.01%,
+  100% {
+    translate: 0 0;
+    scale: 1 1;
   }
 }

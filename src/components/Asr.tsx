@@ -1,5 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Dict } from "../i18n";
+import { ASR_RULE, SIZES_RULE } from "../koel/colony";
+import { Crossing, Roost } from "../koel/Flock";
 import { type Locale, pagePath } from "../site";
 import { StarButton } from "./Stars";
 
@@ -26,6 +28,8 @@ export function Size({ text, index }: { text: string; index: number }) {
 export function Asr({ t, locale }: { t: Dict; locale: Locale }) {
   return (
     <section id="asr" className="section" aria-labelledby="asr-title" data-watch>
+      <Roost on="rule" birds={ASR_RULE} />
+      <Crossing />
       <div className="wrap">
         <div className="section-head">
           <h2 id="asr-title" className="keep-words">
@@ -36,6 +40,7 @@ export function Asr({ t, locale }: { t: Dict; locale: Locale }) {
         <ul className="models" data-watch>
           {t.asr.cards.map((c, i) => (
             <li key={c.size} className="model">
+              {i === 0 && <Roost on="rule" birds={SIZES_RULE} />}
               <Size text={c.size} index={i} />
               <p className="model-title">{c.title}</p>
             </li>
