@@ -2,15 +2,22 @@ import type { Dict } from "../i18n";
 import { Canopy } from "../koel/Canopy";
 import { Crossing } from "../koel/Flock";
 import { DEMO_URL } from "../site";
-import { Melody } from "./Staff";
+import { Logo } from "./Logo";
 
+/**
+ * The team first: the Koelony lockup, large, then what we stand for, who we are, and the one thing
+ * to try. The model itself (and the transcript the koel flies) is shown in the ASR section below.
+ */
 export function Hero({ t }: { t: Dict }) {
   return (
     <section className="hero" aria-labelledby="hero-title">
       <Canopy seed={7} w={720} h={560} from="right" />
       <div className="wrap">
-        <h1 id="hero-title" className="keep-words">
-          {t.hero.title}
+        <h1 id="hero-title" className="hero-title">
+          <span className="hero-brand">
+            <Logo height="var(--hero-logo)" />
+          </span>
+          <span className="hero-tag keep-words">{t.hero.title}</span>
         </h1>
         <div className="hero-sub">
           <p className="lede">{t.hero.lede}</p>
@@ -20,15 +27,10 @@ export function Hero({ t }: { t: Dict }) {
             </a>
           </div>
         </div>
-        {/* A far flock crosses the gap between the words and the staff, again and again. */}
+        {/* A far flock crosses the sky below, again and again. */}
         <div className="hero-sky">
           <Crossing />
         </div>
-        <Melody
-          text={t.hero.sample}
-          jyutping={t.hero.sampleJyutping}
-          caption={t.hero.sampleLabel}
-        />
       </div>
     </section>
   );

@@ -454,7 +454,33 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
 
 /* Hero */
 .hero {
-  padding-block: clamp(32px, 4.5vw, 64px) clamp(56px, 8vw, 112px);
+  padding-block: clamp(40px, 6vw, 96px) clamp(88px, 10vw, 150px);
+}
+/* The name, as the brand draws it, large; under it the line we stand for. */
+.hero-title {
+  display: grid;
+  gap: clamp(18px, 2.4vw, 32px);
+}
+.hero-brand {
+  --hero-logo: clamp(66px, 30px + 8vw, 148px);
+  display: block;
+  line-height: 0;
+}
+/* The header's logo waits until the hero's large one has scrolled away. */
+.site-header .brand {
+  transition:
+    opacity 0.3s,
+    visibility 0.3s;
+}
+.name-in .site-header .brand {
+  opacity: 0;
+  visibility: hidden;
+}
+.hero-tag {
+  display: block;
+  max-width: 22em;
+  font-size: clamp(1.75rem, 1.05rem + 2.6vw, 3.25rem);
+  line-height: 1.12;
 }
 .hero-sub {
   display: grid;

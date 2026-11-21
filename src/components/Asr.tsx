@@ -3,6 +3,7 @@ import type { Dict } from "../i18n";
 import { ASR_RULE, SIZES_RULE } from "../koel/colony";
 import { Crossing, Roost } from "../koel/Flock";
 import { type Locale, pagePath } from "../site";
+import { Melody } from "./Staff";
 import { StarButton } from "./Stars";
 
 /**
@@ -37,6 +38,12 @@ export function Asr({ t, locale }: { t: Dict; locale: Locale }) {
           </h2>
           <p className="lede">{t.asr.lede}</p>
         </div>
+        {/* What the model writes: a code-switched sentence on its tone staff, flown by the koel. */}
+        <Melody
+          text={t.hero.sample}
+          jyutping={t.hero.sampleJyutping}
+          caption={t.hero.sampleLabel}
+        />
         <ul className="models" data-watch>
           {t.asr.cards.map((c, i) => (
             <li key={c.size} className="model">

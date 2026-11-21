@@ -10,7 +10,8 @@ export function Logo({
   height = 30,
 }: {
   variant?: "lockup" | "mark";
-  height?: number;
+  /** Pixels, or any CSS length (the hero passes one that scales with the screen). */
+  height?: number | string;
 }) {
   const svg = variant === "lockup" ? LOCKUP_SVG : MARK_SVG;
   if (svg) {
