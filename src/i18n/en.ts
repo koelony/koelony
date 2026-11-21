@@ -2,9 +2,9 @@ import type { Dict } from "./types";
 
 export const en: Dict = {
   meta: {
-    title: "Koelony: open AI models for Hong Kong Cantonese",
+    title: "Koelony: open-source models for Hong Kong Cantonese",
     description:
-      "Open speech and language models for Hong Kong Cantonese. Qwen3-ASR fine-tunes (1.7B, 0.6B) that write colloquial Cantonese and keep English in English. GGUF, FP8 and NVFP4 builds.",
+      "Open-source speech and language models for Hong Kong Cantonese. Qwen3-ASR fine-tunes (1.7B, 0.6B) that write colloquial Cantonese and keep English in English. GGUF, FP8 and NVFP4 builds.",
     keywords: [
       "Cantonese ASR",
       "Hong Kong Cantonese",
@@ -16,7 +16,7 @@ export const en: Dict = {
       "open source AI",
       "廣東話語音識別",
     ],
-    ogAlt: "Koelony: open AI models for Hong Kong Cantonese",
+    ogAlt: "Koelony: open-source models for Hong Kong Cantonese",
   },
   skip: "Skip to content",
   nav: {
@@ -152,7 +152,7 @@ export const en: Dict = {
     cta: "See OraType",
   },
   footer: {
-    tagline: "Open AI models for Hong Kong Cantonese.",
+    tagline: "Open-source models for Hong Kong Cantonese.",
     license: "Models released under Apache-2.0.",
     links: "Links",
   },

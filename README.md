@@ -1,6 +1,6 @@
 # koelony.com
 
-Source of [koelony.com](https://koelony.com), the site of **Koelony**: open AI models for Hong Kong Cantonese.
+Source of [koelony.com](https://koelony.com), the site of **Koelony**: open-source models for Hong Kong Cantonese.
 
 English lives at `/`, Hong Kong Cantonese at `/zh-hk/`. Both are prerendered to static HTML at build
 time (full content, `hreflang`, Open Graph and JSON-LD in the HTML), then hydrated by React.

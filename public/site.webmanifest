@@ -1,7 +1,7 @@
 {
   "name": "Koelony",
   "short_name": "Koelony",
-  "description": "Open AI models for Hong Kong Cantonese.",
+  "description": "Open-source models for Hong Kong Cantonese.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
