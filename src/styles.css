@@ -115,6 +115,12 @@ html {
   scrollbar-color: var(--ink) var(--paper);
   caret-color: var(--eye);
 }
+/* On a phone the pinned header is two rows high. */
+@media (max-width: 759px) {
+  html {
+    scroll-padding-top: 108px;
+  }
+}
 body {
   margin: 0;
   background: var(--paper);
@@ -225,15 +231,35 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
 
 /* Header */
 .site-header {
+  /* Pinned at every width: on a phone too the menu is always one tap away. */
+  position: sticky;
+  top: 0;
+  z-index: 50;
   border-bottom: 1px solid var(--ink);
   background: var(--paper);
+}
+/* Reading progress: the header's rule inks itself from the left as the page is read. */
+.read-progress {
+  position: absolute;
+  right: 0;
+  bottom: -1px;
+  left: 0;
+  height: 3px;
+  background: var(--ink);
+  transform: scaleX(var(--read, 0));
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+/* The section in the middle of the window is marked in the menu. */
+.nav a[data-here] {
+  font-weight: 650;
 }
 .header-row {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   column-gap: 28px;
-  padding-block: 14px;
+  padding-block: 10px;
 }
 .brand {
   display: inline-flex;
@@ -259,7 +285,7 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
   flex-basis: 100%;
   justify-content: space-between;
   gap: 8px 16px;
-  padding-top: 12px;
+  padding-top: 8px;
   font-size: 0.9375rem;
 }
 .nav a {
@@ -281,11 +307,6 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
   color: var(--paper);
 }
 @media (min-width: 760px) {
-  .site-header {
-    position: sticky;
-    top: 0;
-    z-index: 50;
-  }
   .header-row {
     flex-wrap: nowrap;
     height: 64px;
@@ -1121,9 +1142,9 @@ tbody :is(th, td) {
 .canopy .leaf {
   fill: var(--leaf);
 }
-/* Ripe figs, the koel's food: red, but only a blush of it, so they never shout over the type. */
+/* Figs, the koel's food: small round fruit a shade darker than the leaves, no colour of their own. */
 .canopy .fig {
-  fill: color-mix(in srgb, var(--eye) 38%, var(--paper));
+  fill: color-mix(in srgb, var(--ink) 16%, var(--paper));
 }
 .canopy .root {
   fill: none;

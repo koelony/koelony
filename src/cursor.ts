@@ -2,7 +2,7 @@ import { FLYING, LITTLE, PERCHED } from "./koel/art";
 
 /**
  * The pointer is a little koel. The tip of its beak is the exact point you click with. It faces the
- * way you move; moving fast it takes off and flaps, leaving a short ink trail that fades like a
+ * way you move; moving fast it takes off and flaps, leaving a short red trail that fades like a
  * pitch contour on the staff; slowing down it perches again and now and then blinks. Reaching a
  * link or a button it pecks at it, and a click is a little hop.
  *
@@ -28,6 +28,7 @@ const INTERACTIVE =
   "a, button, [role='button'], summary, label, select, [tabindex]:not([tabindex='-1'])";
 
 const n = (v: number) => Number(v.toFixed(2));
+const RED = "#d0201a";
 
 /**
  * The bird as two SVG layers: the silhouette (blended against the page, so it is black on white and
@@ -138,7 +139,8 @@ export function startCursor(): () => void {
     if (ctx) {
       ctx.clearRect(0, 0, width, height);
       ctx.lineCap = "round";
-      ctx.strokeStyle = "#fff";
+      // The flight path is drawn in the red of the bird (white over a red button).
+      ctx.strokeStyle = root.classList.contains("cursor-solid") ? "#fff" : RED;
       for (let i = 1; i < points.length; i += 1) {
         const a = points[i - 1];
         const b = points[i];

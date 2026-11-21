@@ -11,6 +11,7 @@ import { UsedBy } from "./components/UsedBy";
 import { DICTS } from "./i18n";
 import { KoelSprite } from "./koel/Flock";
 import { watchPage } from "./motion";
+import { startProgress } from "./progress";
 import type { Locale, Page } from "./site";
 
 // The koel (and Motion, which only it uses) is not needed to read the page, so it loads after the
@@ -34,6 +35,7 @@ const brandVars = { "--brand-red": BRAND.red } as CSSProperties;
 export function App({ locale, page = "home" }: { locale: Locale; page?: Page }) {
   const t = DICTS[locale];
   useEffect(() => watchPage(), []);
+  useEffect(() => startProgress(), []);
   return (
     <div className="site" style={brandVars}>
       <a className="skip-link" href="#main">

@@ -11,16 +11,26 @@ export function Header({ t, locale, page }: { t: Dict; locale: Locale; page: Pag
   return (
     <header className="site-header">
       <Roost on="floor" birds={HEADER} />
+      {/* How far down the page the reader is: the header's own rule, inked as they go (progress.ts). */}
+      <span className="read-progress" aria-hidden="true" />
       <div className="wrap header-row">
         <a className="brand" href={LOCALES[locale].path}>
           <Logo height={36} />
         </a>
         <nav aria-label={t.nav.primary} className="nav">
-          <a href={pagePath(locale, "asr")} aria-current={page === "asr" ? "page" : undefined}>
+          <a
+            href={pagePath(locale, "asr")}
+            aria-current={page === "asr" ? "page" : undefined}
+            data-section="asr"
+          >
             {t.nav.asr}
           </a>
-          <a href="#demo">{t.nav.demo}</a>
-          <a href={`${home}#nest`}>{t.nav.nest}</a>
+          <a href="#demo" data-section="demo">
+            {t.nav.demo}
+          </a>
+          <a href={`${home}#nest`} data-section="nest">
+            {t.nav.nest}
+          </a>
           <a href={LINKS.githubOrg} rel="noopener">
             {t.nav.github}
           </a>

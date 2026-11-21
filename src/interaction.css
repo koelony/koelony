@@ -15,8 +15,6 @@
 .cur-trail {
   width: 100vw;
   height: 100vh;
-  /* Drawn white and blended by difference: black on the page, white on the demo band. */
-  mix-blend-mode: difference;
 }
 .cb {
   width: var(--cb, 46px);
@@ -32,16 +30,31 @@
   transform-origin: 70% 80%;
   transition: transform 0.16s cubic-bezier(0.3, 1.6, 0.5, 1);
 }
-/* The silhouette is white and blended by difference, like the koel on the page; the eye stays red. */
+/*
+ * The pointer is the one red koel on the page (the colony is ink), with a white eye and a thin
+ * outline in the paper colour, so it is never mistaken for one of the birds around it. Over a red
+ * button it turns white with a red eye.
+ */
 .cb-body {
-  mix-blend-mode: difference;
-  fill: #fff;
-}
-.cb-eye {
   fill: var(--brand-red, #d0201a);
 }
+.cb-body svg path {
+  stroke: var(--paper);
+  stroke-width: 26px;
+  stroke-linejoin: round;
+  paint-order: stroke;
+}
+.cb-eye {
+  fill: #fff;
+}
 .cursor-solid .cb-body {
-  mix-blend-mode: normal;
+  fill: #fff;
+}
+.cursor-solid .cb-body svg path {
+  stroke: var(--brand-red, #d0201a);
+}
+.cursor-solid .cb-eye {
+  fill: var(--brand-red, #d0201a);
 }
 .cursor-in .cb {
   opacity: 1;
@@ -213,7 +226,8 @@ html.has-cursor.cursor-in * {
     text-decoration: none;
   }
   .nav a:hover::after,
-  .nav a[aria-current]::after {
+  .nav a[aria-current]::after,
+  .nav a[data-here]::after {
     transform: scaleX(1);
   }
 
