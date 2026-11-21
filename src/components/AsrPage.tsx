@@ -82,7 +82,9 @@ export function AsrPage({ t }: { t: Dict }) {
     <>
       <section className="hero page-head" aria-labelledby="asr-page-title">
         <div className="wrap">
-          <h1 id="asr-page-title">{p.title}</h1>
+          <h1 id="asr-page-title" className="keep-words">
+            {p.title}
+          </h1>
           <div className="hero-sub">
             <p className="lede">{p.lede}</p>
             <div className="actions">

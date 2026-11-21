@@ -28,7 +28,9 @@ export function Asr({ t, locale }: { t: Dict; locale: Locale }) {
     <section id="asr" className="section" aria-labelledby="asr-title" data-watch>
       <div className="wrap">
         <div className="section-head">
-          <h2 id="asr-title">{t.asr.title}</h2>
+          <h2 id="asr-title" className="keep-words">
+            {t.asr.title}
+          </h2>
           <p className="lede">{t.asr.lede}</p>
         </div>
         <ul className="models" data-watch>

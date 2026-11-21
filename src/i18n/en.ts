@@ -29,7 +29,7 @@ export const en: Dict = {
   },
   hero: {
     title: "Cantonese, written the way Hong Kong speaks it.",
-    lede: "Koelony is a team in Hong Kong building open speech and language models for Cantonese. First up is speech recognition, free on Hugging Face.",
+    lede: "Koelony is a team based in Hong Kong, founded to build open-source speech and language models specifically for Hong Kong Cantonese. First up is speech recognition, free on Hugging Face.",
     ctaDemo: "Try the 0.6B demo",
     sample: "今朝喺地鐵站等咗成粒鐘，個 schedule 完全 delay 晒。",
     sampleJyutping:
@@ -37,8 +37,8 @@ export const en: Dict = {
     sampleLabel: "Transcribed by Qwen3-ASR Cantonese HK",
   },
   asr: {
-    title: "Qwen3-ASR, fine-tuned for Hong Kong Cantonese",
-    lede: "It writes the characters Hong Kong people actually say (係, 喺, 嘅, 咗) and keeps English words in English. On mixed Cantonese and English speech it makes fewer than half the errors of the stock model.",
+    title: "Qwen3-ASR Cantonese HK",
+    lede: "Fine-tuned for Hong Kong Cantonese, written in Traditional Chinese. It handles switching between Cantonese and English the way a Hongkonger does. Not just another Yue ASR.",
     cards: [
       { size: "1.7B", title: "Most accurate, for desktops and servers" },
       { size: "0.6B", title: "Small enough to run in a browser" },
@@ -109,10 +109,16 @@ export const en: Dict = {
     note: "The first visit downloads about 1.2 GB. Works best in desktop Chrome or Edge.",
   },
   nest: {
-    title: "Models in progress",
-    lede: "Speech recognition is the first release. These come next.",
+    title: "Roadmap",
+    lede: "Speech recognition is out. These are next.",
     status: { released: "Released", training: "In training", research: "Research" },
     items: [
+      {
+        title: "Cantonese speech recognition",
+        status: "released",
+        body: "Qwen3-ASR in 1.7B and 0.6B, open on Hugging Face.",
+        page: "asr",
+      },
       {
         title: "Cantonese text-to-speech",
         status: "training",

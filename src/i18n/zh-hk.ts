@@ -22,14 +22,14 @@ export const zhHK: Dict = {
   nav: {
     asr: "語音識別",
     demo: "試用",
-    nest: "進行緊",
+    nest: "進度",
     github: "GitHub",
     switchLabel: "轉語言",
     primary: "主目錄",
   },
   hero: {
     title: "廣東話，香港人點講就點寫。",
-    lede: "Koelony 係香港一班人，專整廣東話嘅開源語音同語言模型。第一個推出嘅係語音識別，免費放咗喺 Hugging Face。",
+    lede: "Koelony 係一隊香港團隊，成立就係為咗整專屬香港廣東話嘅開源語音同語言模型。第一個推出嘅係語音識別，免費放咗喺 Hugging Face。",
     ctaDemo: "試吓 0.6B demo",
     sample: "今朝喺地鐵站等咗成粒鐘，個 schedule 完全 delay 晒。",
     sampleJyutping:
@@ -37,8 +37,8 @@ export const zhHK: Dict = {
     sampleLabel: "由 Qwen3-ASR 廣東話（香港）轉寫",
   },
   asr: {
-    title: "Qwen3-ASR，專為香港廣東話微調",
-    lede: "佢寫返香港人講嘢真係用嘅字（係、喺、嘅、咗），英文字保留英文。中英夾雜嘅說話，錯字少過原版模型一半。",
+    title: "Qwen3-ASR 廣東話（香港）",
+    lede: "專為香港廣東話微調，出繁體字。廣東話夾英文都聽得明，好似香港人咁。唔係又一個普通嘅粵語 ASR。",
     cards: [
       { size: "1.7B", title: "最準，啱桌面電腦同伺服器" },
       { size: "0.6B", title: "細到可以喺瀏覽器度跑" },
@@ -109,10 +109,16 @@ export const zhHK: Dict = {
     note: "第一次開要下載大約 1.2 GB，用桌面版 Chrome 或者 Edge 最好。",
   },
   nest: {
-    title: "進行緊嘅模型",
-    lede: "語音識別係第一個推出嘅，跟住就係呢幾個。",
+    title: "模型進度",
+    lede: "語音識別已經推出，跟住就係呢幾個。",
     status: { released: "已推出", training: "訓練緊", research: "研究緊" },
     items: [
+      {
+        title: "廣東話語音識別",
+        status: "released",
+        body: "Qwen3-ASR 1.7B 同 0.6B，喺 Hugging Face 開放。",
+        page: "asr",
+      },
       {
         title: "廣東話文字轉語音",
         status: "training",

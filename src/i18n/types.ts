@@ -1,3 +1,5 @@
+import type { Page } from "../site";
+
 export type Status = "released" | "training" | "research";
 
 export type Dict = {
@@ -69,7 +71,8 @@ export type Dict = {
     title: string;
     lede: string;
     status: Record<Status, string>;
-    items: { title: string; status: Status; body: string }[];
+    /** Shown furthest along first. `page` links the title to that model's page on this site. */
+    items: { title: string; status: Status; body: string; page?: Page }[];
   };
   usedBy: { title: string; body: string; cta: string };
   footer: { tagline: string; license: string; links: string };

@@ -47,7 +47,7 @@ export function App({ locale, page = "home" }: { locale: Locale; page?: Page }) 
             <Hero t={t} />
             <Asr t={t} locale={locale} />
             <Demo t={t} />
-            <Nest t={t} />
+            <Nest t={t} locale={locale} />
             <UsedBy t={t} />
           </>
         )}

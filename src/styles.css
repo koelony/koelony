@@ -282,7 +282,7 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
 .actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 12px 24px;
 }
 .btn {
   display: inline-flex;
@@ -601,6 +601,10 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
 .model-title {
   font-weight: 600;
 }
+/* "Qwen3-ASR 廣東話（香港）" breaks at the space only, never inside 廣東話. Short headings only. */
+.keep-words {
+  word-break: keep-all;
+}
 .section > .wrap > .actions {
   margin-top: 40px;
 }
@@ -626,7 +630,6 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
 /* The quiet way on from a section that already has its one button. */
 .more {
   align-self: center;
-  margin-left: 12px;
   font-weight: 600;
 }
 
@@ -888,20 +891,50 @@ tbody :is(th, td) {
   margin-top: 14px;
 }
 
-/* What is still in training: a list with its status, not a wall of cards. */
+/*
+ * The roadmap is a progress track: three stages across, and each model's line runs from the left
+ * to the stage it has reached. Red dots are live (released, in training); an open ring is research.
+ */
 .roadmap {
-  margin: clamp(76px, 8vw, 104px) 0 0;
+  margin: clamp(56px, 7vw, 96px) 0 0;
+}
+.roadmap-stages,
+.roadmap-list > li {
+  display: grid;
+  gap: 14px 48px;
+}
+@media (min-width: 900px) {
+  .roadmap-stages,
+  .roadmap-list > li {
+    grid-template-columns: 5fr 7fr;
+    align-items: center;
+  }
+  .stage-labels {
+    grid-column: 2;
+  }
+}
+.roadmap-stages {
+  padding-block: 14px 10px;
+  border-bottom: 1px solid var(--hair);
+}
+.stage-labels {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  color: var(--soft);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-align: center;
+}
+.roadmap-list {
+  margin: 0;
   padding: 0;
   list-style: none;
 }
-.roadmap li {
+.roadmap-list > li {
   position: relative;
-  display: grid;
-  gap: 6px 32px;
-  padding-block: 20px;
-  border-bottom: 1px solid transparent;
+  padding-block: 22px;
 }
-.roadmap li::after {
+.roadmap-list > li::after {
   content: "";
   position: absolute;
   inset: auto 0 -1px;
@@ -909,44 +942,71 @@ tbody :is(th, td) {
   background: var(--hair);
   transform-origin: 0 50%;
 }
-.status {
+.roadmap-text p {
+  margin-top: 4px;
+  color: var(--soft);
+}
+.roadmap-text h3 a {
+  text-decoration-thickness: 2px;
+}
+.track {
+  --at: calc((var(--stage, 0) * 2 + 1) / 6 * 100%);
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  font-weight: 600;
+  height: 28px;
 }
-.status::before {
+/* The rail, with a stop under each stage. */
+.track::before,
+.track::after {
   content: "";
-  flex: none;
-  width: 10px;
-  height: 10px;
-  border: 2px solid var(--ink);
-  border-radius: 50%;
+  position: absolute;
+  inset: 0;
 }
-.status-training::before,
-.status-released::before {
+.track::before {
+  top: 50%;
+  bottom: auto;
+  height: 1px;
+  background: var(--hair);
+}
+.track::after {
+  background:
+    radial-gradient(circle, var(--hair) 3.5px, transparent 4px) 0 50% / calc(100% / 3) 100% repeat-x;
+}
+.track-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  z-index: 1;
+  width: var(--at);
+  height: 3px;
+  margin-top: -1.5px;
+  background: var(--ink);
+  transform-origin: 0 50%;
+}
+.track-dot {
+  position: absolute;
+  top: 50%;
+  left: var(--at);
+  z-index: 2;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: var(--paper);
+}
+.stage-training .track-dot,
+.stage-released .track-dot {
   border-color: var(--eye);
   background: var(--eye);
 }
 /* What is in training is live: a ring leaves its dot (see "Motion"). */
-.status-training::after {
+.stage-training .track-dot::after {
   content: "";
   position: absolute;
-  top: 50%;
-  left: 0;
-  width: 10px;
-  height: 10px;
-  margin-top: -5px;
+  inset: -3px;
   border: 2px solid var(--eye);
   border-radius: 50%;
   opacity: 0;
-}
-@media (min-width: 900px) {
-  .roadmap li {
-    grid-template-columns: 4fr 2fr 6fr;
-    align-items: baseline;
-  }
 }
 
 /* Used by */
@@ -1128,8 +1188,8 @@ tbody :is(th, td) {
   /*
    * How each line arrives once its `[data-watch]` parent has been reached. A section's rule crosses
    * the page. Over the two model sizes the rule passes, the hairline drops between them, and each
-   * size is confirmed a character at a time. The roadmap rules its rows one after another, and each
-   * status dot lands as its line arrives.
+   * size is confirmed a character at a time. On the roadmap each model's line runs out to its stage,
+   * one after another, and its dot lands as the line arrives.
    */
   .js :is(.section, .site-footer, .models, .roadmap)::before {
     transition: transform 0.9s cubic-bezier(0.3, 0.6, 0.15, 1);
@@ -1141,17 +1201,22 @@ tbody :is(th, td) {
     transition: opacity 0.18s;
     transition-delay: calc(var(--m, 0) * 0.42s + var(--k, 0) * 0.1s + 0.18s);
   }
-  .js .roadmap li::after {
+  .js .roadmap-list > li::after {
     transition: transform 0.6s cubic-bezier(0.3, 0.6, 0.15, 1);
     transition-delay: calc(var(--i, 0) * 0.11s + 0.15s);
   }
-  .js .status::before {
+  .js .track-line {
+    transition: transform calc(0.45s + var(--stage, 0) * 0.25s) cubic-bezier(0.3, 0.6, 0.15, 1);
+    transition-delay: calc(var(--i, 0) * 0.13s + 0.3s);
+  }
+  .js .track-dot {
     transition: transform 0.34s cubic-bezier(0.3, 1.7, 0.5, 1);
-    transition-delay: calc(var(--i, 0) * 0.11s + 0.4s);
+    transition-delay: calc(var(--i, 0) * 0.13s + 0.3s + 0.4s + var(--stage, 0) * 0.25s);
   }
   /* Where each starts. */
   .js :is(.section, .site-footer, .models, .roadmap):not([data-seen])::before,
-  .js .roadmap:not([data-seen]) li::after {
+  .js .roadmap:not([data-seen]) li::after,
+  .js .roadmap:not([data-seen]) .track-line {
     transform: scaleX(0);
   }
   .js .models:not([data-seen]) .model + .model::before {
@@ -1160,13 +1225,13 @@ tbody :is(th, td) {
   .js .models:not([data-seen]) .ch {
     opacity: 0.24;
   }
-  .js .roadmap:not([data-seen]) .status::before {
+  .js .roadmap:not([data-seen]) .track-dot {
     transform: scale(0);
   }
 
   /* In training: the koel's two notes, short then long, for as long as the list is on screen. */
-  .roadmap[data-in] .status-training::after {
-    animation: live 3.4s calc(var(--i, 0) * 0.55s + 1.2s) infinite;
+  .roadmap[data-in] .stage-training .track-dot::after {
+    animation: live 3.4s calc(var(--i, 0) * 0.55s + 1.8s) infinite;
   }
 
   /* The tape runs while the band is on screen. */
@@ -1211,7 +1276,8 @@ tbody :is(th, td) {
   /* If the script never arrives, everything it would have started is simply shown. */
   .js:not(.watch) [data-watch]::before,
   .js:not(.watch) [data-watch] :is(.contour, .staff-fill),
-  .js:not(.watch) [data-watch] :is(.model, .status)::before,
+  .js:not(.watch) [data-watch] :is(.model)::before,
+  .js:not(.watch) [data-watch] :is(.track-line, .track-dot),
   .js:not(.watch) [data-watch] li::after,
   .js:not(.watch) [data-watch] .ch {
     animation: confirm 0.4s 4s both;
