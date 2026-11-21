@@ -1,7 +1,7 @@
 /*
- * Koelony. A ruled sheet in two tones of the koel's day (see :root): one left edge, ink hairlines,
- * type set in a Hong Kong rounded gothic, and a banyan behind it where the koel feeds. Red is spent
- * where the logo spends it: the eye, the figs, and the one primary button.
+ * Koelony. A ruled sheet in black and white: one left edge, black hairlines, type set in a Hong Kong
+ * rounded gothic, and a faint banyan behind it where the koel feeds. Red is spent
+ * where the logo spends it: the eye, and the primary buttons.
  *
  * The sheet is manuscript paper (every rule is the top line of a five-line staff) and a colony of
  * little koels stands on its lines: see "The colony" and the staff under `.section` below.
@@ -39,20 +39,19 @@
 
 :root {
   /*
-   * Two times of the koel's day, never pure black on pure white. Light is a misty morning in the
-   * banyans (a pale leaf-grey, ink a deep green-black); dark is the small hours when it calls, the
-   * glossy blue-black of the male bird.
+   * The page is pure white with black ink (pure black with white ink in dark mode). Only what lies
+   * behind it, the banyan, is kept low in contrast: a shade off the paper, never louder than that.
    */
-  --paper: #e6ece8;
-  --ink: #18211d;
-  --soft: #4e5b55;
-  --hair: #c0cac4;
-  --mid: #6f7c76;
+  --paper: #fff;
+  --ink: #000;
+  --soft: #595959;
+  --hair: #c9c9c9;
+  --mid: #767676;
   /* The sheet's own printed ruling: fainter than a hairline, the lines nothing has been written on. */
-  --rule: #d3dbd6;
-  /* The banyan behind the page (koel/Canopy.tsx): a shade off the paper, never louder than that. */
-  --bough: #d2dbd5;
-  --leaf: #c8d3cc;
+  --rule: #dcdcdc;
+  /* The banyan behind the page (koel/Canopy.tsx). */
+  --bough: #ececec;
+  --leaf: #e4e4e4;
   --eye: var(--brand-red, #d0201a);
   --display:
     "Chiron GoRound TC", "PingFang HK", "Noto Sans HK", "Microsoft JhengHei", system-ui, sans-serif;
@@ -67,39 +66,36 @@
   --staff-h: clamp(34px, 22px + 2.4vw, 52px);
   color-scheme: light;
 }
-/*
- * The demo band is the one place to try the model, so it is the other time of day: night on the
- * morning page, morning on the night page.
- */
+/* The demo band is the page's negative: the one place to try the model, so the one that is flipped. */
 .band {
-  --paper: #0f1520;
-  --ink: #e4e8ee;
-  --soft: #a3acb9;
-  --hair: #2c3546;
-  --mid: #7d8796;
-  --bough: #18202d;
-  --leaf: #1c2533;
+  --paper: #000;
+  --ink: #fff;
+  --soft: #b0b0b0;
+  --hair: #404040;
+  --mid: #8c8c8c;
+  --bough: #151515;
+  --leaf: #1b1b1b;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #0f1520;
-    --ink: #e4e8ee;
-    --soft: #a3acb9;
-    --hair: #2c3546;
-    --mid: #7d8796;
-    --rule: #1c2432;
-    --bough: #18202d;
-    --leaf: #1c2533;
+    --paper: #000;
+    --ink: #fff;
+    --soft: #b0b0b0;
+    --hair: #404040;
+    --mid: #8c8c8c;
+    --rule: #2e2e2e;
+    --bough: #151515;
+    --leaf: #1b1b1b;
     color-scheme: dark;
   }
   .band {
-    --paper: #e6ece8;
-    --ink: #18211d;
-    --soft: #4e5b55;
-    --hair: #c0cac4;
-    --mid: #6f7c76;
-    --bough: #d2dbd5;
-    --leaf: #c8d3cc;
+    --paper: #fff;
+    --ink: #000;
+    --soft: #595959;
+    --hair: #c9c9c9;
+    --mid: #767676;
+    --bough: #ececec;
+    --leaf: #e4e4e4;
   }
 }
 
