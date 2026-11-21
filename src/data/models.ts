@@ -8,7 +8,7 @@ export type Checkpoint = {
   family: "1.7B" | "0.6B";
 };
 
-const hf = (repo: string) => `https://huggingface.co/joe2643/${repo}`;
+const hf = (repo: string) => `https://huggingface.co/koelony/${repo}`;
 
 export const CHECKPOINTS: (Checkpoint & { url: string })[] = [
   {

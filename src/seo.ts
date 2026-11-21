@@ -47,7 +47,7 @@ export function buildHead(locale: Locale, page: Page = "home"): string {
         logo: `${SITE_URL}/icon-512.png`,
         description: DICTS.en.footer.tagline,
         foundingLocation: { "@type": "Place", name: "Hong Kong" },
-        sameAs: [LINKS.githubOrg, LINKS.asrRepo],
+        sameAs: [LINKS.githubOrg, LINKS.hfOrg],
       },
       {
         "@type": "WebSite",

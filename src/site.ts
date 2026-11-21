@@ -13,9 +13,10 @@ export const ASR_REPO = "koelony/qwen3-asr-cantonese-hk";
 
 export const LINKS = {
   githubOrg: "https://github.com/koelony",
+  hfOrg: "https://huggingface.co/koelony",
   asrRepo: `https://github.com/${ASR_REPO}`,
-  hf17: "https://huggingface.co/joe2643/Qwen3-ASR-1.7B-Cantonese-HK",
-  hf06: "https://huggingface.co/joe2643/Qwen3-ASR-0.6B-Cantonese-HK",
+  hf17: "https://huggingface.co/koelony/Qwen3-ASR-1.7B-Cantonese-HK",
+  hf06: "https://huggingface.co/koelony/Qwen3-ASR-0.6B-Cantonese-HK",
   oratype: "https://github.com/sennett-lau/oratype",
   oratypeSite: "https://oratype.sennettlau.me",
 } as const;
