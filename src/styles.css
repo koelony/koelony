@@ -466,16 +466,6 @@ html:lang(zh-Hant-HK) :is(h1, h2) {
   display: block;
   line-height: 0;
 }
-/* The header's logo waits until the hero's large one has scrolled away. */
-.site-header .brand {
-  transition:
-    opacity 0.3s,
-    visibility 0.3s;
-}
-.name-in .site-header .brand {
-  opacity: 0;
-  visibility: hidden;
-}
 .hero-tag {
   display: block;
   max-width: 22em;

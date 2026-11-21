@@ -2,7 +2,6 @@
  * Where the reader is. The header's bottom rule inks itself from left to right as the page is read
  * (`--read` on <html>, 0 to 1), and the menu marks the section in the middle of the window
  * (`data-here` on its link). Both are plain state, not animation, so reduced motion keeps them.
- * On the home page the header's small logo steps aside while the hero's large one is in view.
  */
 export function startProgress(): () => void {
   const root = document.documentElement;
@@ -44,22 +43,11 @@ export function startProgress(): () => void {
   );
   for (const section of byId.keys()) observer.observe(section);
 
-  // While the hero shows the name large, the header leaves its small logo out (`name-in`).
-  const name = document.querySelector(".hero-brand");
-  const header = document.querySelector(".site-header");
-  const nameWatch = new IntersectionObserver(
-    ([entry]) => root.classList.toggle("name-in", entry.isIntersecting),
-    { rootMargin: `-${header?.getBoundingClientRect().height ?? 64}px 0px 0px 0px` },
-  );
-  if (name) nameWatch.observe(name);
-
   return () => {
     cancelAnimationFrame(raf);
     window.removeEventListener("scroll", queue);
     window.removeEventListener("resize", queue);
     observer.disconnect();
-    nameWatch.disconnect();
-    root.classList.remove("name-in");
     root.style.removeProperty("--read");
   };
 }
