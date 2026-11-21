@@ -1,6 +1,7 @@
 import { type CSSProperties, lazy, Suspense, useEffect, useState } from "react";
 import { BRAND } from "./brand";
 import { Asr } from "./components/Asr";
+import { AsrPage } from "./components/AsrPage";
 import { Demo } from "./components/Demo";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
@@ -9,7 +10,7 @@ import { Nest } from "./components/Nest";
 import { UsedBy } from "./components/UsedBy";
 import { DICTS } from "./i18n";
 import { watchPage } from "./motion";
-import type { Locale } from "./site";
+import type { Locale, Page } from "./site";
 
 // The koel (and Motion, which only it uses) is not needed to read the page, so it loads after the
 // page has hydrated: the prerendered markup never contains the bird.
@@ -29,7 +30,7 @@ function Koel() {
 /** The one colour the page takes from the brand folder: the red of the koel's eye. */
 const brandVars = { "--brand-red": BRAND.red } as CSSProperties;
 
-export function App({ locale }: { locale: Locale }) {
+export function App({ locale, page = "home" }: { locale: Locale; page?: Page }) {
   const t = DICTS[locale];
   useEffect(() => watchPage(), []);
   return (
@@ -37,16 +38,23 @@ export function App({ locale }: { locale: Locale }) {
       <a className="skip-link" href="#main">
         {t.skip}
       </a>
-      <Header t={t} locale={locale} />
+      <Header t={t} locale={locale} page={page} />
       <main id="main">
-        <Hero t={t} />
-        <Asr t={t} />
-        <Demo t={t} />
-        <Nest t={t} />
-        <UsedBy t={t} />
+        {page === "asr" ? (
+          <AsrPage t={t} />
+        ) : (
+          <>
+            <Hero t={t} />
+            <Asr t={t} locale={locale} />
+            <Demo t={t} />
+            <Nest t={t} />
+            <UsedBy t={t} />
+          </>
+        )}
       </main>
-      <Footer t={t} locale={locale} />
-      <Koel />
+      <Footer t={t} locale={locale} page={page} />
+      {/* The koel flies the home page's transcript; other pages have none. */}
+      {page === "home" && <Koel />}
     </div>
   );
 }

@@ -29,6 +29,8 @@ bun run fonts      # re-subset the display font to the characters the headings u
 | Path                                  | What                                                                                                    |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------- |
 | `src/i18n/en.ts`, `src/i18n/zh-hk.ts` | All copy. Add a string to both, and to `src/i18n/types.ts`                                              |
+| `src/data/models.ts`                  | Checkpoints and benchmark numbers shown on the ASR page (`/asr/`, `src/components/AsrPage.tsx`)         |
+| `src/components/Stars.tsx`            | The ASR repo button with its GitHub star count (fetched at build, refreshed in the browser)             |
 | `src/data/tones.ts`                   | The six Cantonese tones and their pitch contours                                                        |
 | `src/koel/`                           | The flying koel: artwork, perches, flight along the tone staff, its call written on the staff           |
 | `src/motion.ts`                       | Marks what the reader has reached; the Motion block in `src/styles.css` moves it                        |
@@ -37,7 +39,7 @@ bun run fonts      # re-subset the display font to the characters the headings u
 | `src/site.ts`                         | URLs (demo, repos, Hugging Face) and locale table                                                       |
 | `src/seo.ts`                          | Per-language `<head>`: title, description, canonical, hreflang, OG, JSON-LD                             |
 | `scripts/prerender.ts`                | Static generation of every locale, `404.html` and `sitemap.xml`                                         |
-| `public/_redirects`                   | Short links: `/demo`, `/github`, `/asr`, `/hf`                                                          |
+| `public/_redirects`                   | Short links: `/demo`, `/github`, `/hf`. (`/asr/` is a real page now: the ASR model page)                |
 | `github/profile/README.md`            | Source of the GitHub org profile (published in [`koelony/.github`](https://github.com/koelony/.github)) |
 
 Adding a language: add a dictionary in `src/i18n/`, an entry in `LOCALES` in `src/site.ts` and a

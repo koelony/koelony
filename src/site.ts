@@ -8,9 +8,12 @@ export const SITE_NAME = "Koelony";
  */
 export const DEMO_URL = "https://hkasr.joe2643.work";
 
+/** The public ASR repository, `owner/name` on GitHub. Its star count is shown on the site. */
+export const ASR_REPO = "koelony/qwen3-asr-cantonese-hk";
+
 export const LINKS = {
   githubOrg: "https://github.com/koelony",
-  asrRepo: "https://github.com/joe2643/qwen3-asr-cantonese-hk",
+  asrRepo: `https://github.com/${ASR_REPO}`,
   hf17: "https://huggingface.co/joe2643/Qwen3-ASR-1.7B-Cantonese-HK",
   hf06: "https://huggingface.co/joe2643/Qwen3-ASR-0.6B-Cantonese-HK",
   oratype: "https://github.com/sennett-lau/oratype",
@@ -34,3 +37,10 @@ export const LOCALES: Record<
 };
 
 export const DEFAULT_LOCALE: Locale = "en";
+
+/** Every page exists in every locale: `home` at the locale root, the others under it. */
+export type Page = "home" | "asr";
+export const PAGES: Page[] = ["home", "asr"];
+
+export const pagePath = (locale: Locale, page: Page): string =>
+  page === "home" ? LOCALES[locale].path : `${LOCALES[locale].path}${page}/`;

@@ -1,8 +1,8 @@
 import type { Dict } from "../i18n";
-import { DEMO_URL, LINKS, LOCALES, type Locale, SITE_NAME } from "../site";
+import { DEMO_URL, LINKS, LOCALES, type Locale, type Page, pagePath, SITE_NAME } from "../site";
 import { Logo } from "./Logo";
 
-export function Footer({ t, locale }: { t: Dict; locale: Locale }) {
+export function Footer({ t, locale, page }: { t: Dict; locale: Locale; page: Page }) {
   return (
     <footer className="site-footer" data-watch>
       <div className="wrap footer-grid">
@@ -28,7 +28,7 @@ export function Footer({ t, locale }: { t: Dict; locale: Locale }) {
           {(Object.keys(LOCALES) as Locale[]).map((k) => (
             <a
               key={k}
-              href={LOCALES[k].path}
+              href={pagePath(k, page)}
               hrefLang={LOCALES[k].hreflang}
               lang={LOCALES[k].htmlLang}
               aria-current={k === locale ? "page" : undefined}

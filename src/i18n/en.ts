@@ -31,7 +31,6 @@ export const en: Dict = {
     title: "Cantonese, written the way Hong Kong speaks it.",
     lede: "Koelony is a team in Hong Kong building open speech and language models for Cantonese. First up is speech recognition, free on Hugging Face.",
     ctaDemo: "Try the 0.6B demo",
-    ctaGithub: "Open the ASR repo",
     sample: "今朝喺地鐵站等咗成粒鐘，個 schedule 完全 delay 晒。",
     sampleJyutping:
       "gam1 ziu1 hai2 dei6 tit3 zaam6 dang2 zo2 seng4 nap1 zung1 go3 jyun4 cyun4 saai3",
@@ -44,8 +43,64 @@ export const en: Dict = {
       { size: "1.7B", title: "Most accurate, for desktops and servers" },
       { size: "0.6B", title: "Small enough to run in a browser" },
     ],
-    ctaRepo: "Benchmarks and model card",
-    ctaHf: "Download on Hugging Face",
+    more: "Benchmarks, weights and quantizations",
+  },
+  repo: {
+    cta: "Star on GitHub",
+    stars: "{n} stars",
+  },
+  asrPage: {
+    meta: {
+      title: "Qwen3-ASR for Hong Kong Cantonese: benchmarks and downloads | Koelony",
+      description:
+        "Qwen3-ASR 1.7B and 0.6B fine-tuned for Hong Kong Cantonese. Character error rates against stock Qwen3-ASR and Whisper large-v3, and BF16, GGUF, FP8 and NVFP4 downloads.",
+      keywords: [
+        "Qwen3-ASR Cantonese",
+        "Cantonese ASR benchmark",
+        "Cantonese speech recognition model",
+        "Cantonese GGUF",
+        "Hong Kong Cantonese ASR",
+        "粵語語音識別模型",
+      ],
+      ogAlt: "Qwen3-ASR for Hong Kong Cantonese, by Koelony",
+    },
+    title: "Qwen3-ASR for Hong Kong Cantonese",
+    lede: "It writes the characters Hong Kong people use when they speak (係, 喺, 嘅, 咗, 㗎), keeps English words in English, and does not drift into Simplified or Mainland written forms. Open weights under Apache-2.0.",
+    modelsTitle: "Two sizes",
+    models: [
+      {
+        size: "1.7B",
+        badge: "v2.1",
+        title: "Most accurate",
+        body: "For desktops and servers. Handles short voice commands, and takes a hotword list without repeating it back: 0% parroting in our 210-clip stress test.",
+      },
+      {
+        size: "0.6B",
+        badge: "v1",
+        title: "About a third of the size",
+        body: "Trained on the same voice commands and hotwords. Small enough to run in a browser tab.",
+      },
+    ],
+    benchTitle: "Character error rate",
+    findings: [
+      "On FLEURS Cantonese the 1.7B model gets 3.89% of characters wrong; Whisper large-v3 gets 20.97% wrong.",
+      "On Cantonese–English code-switching (MCE), errors drop from 11.74% with the stock Qwen3-ASR 1.7B to 5.52%.",
+      "The 0.6B model more than halves code-switching errors too, from 15.52% to 6.98%.",
+    ],
+    benchCaption: "Lower is better.",
+    benchCols: {
+      set: "Test set",
+      stock: "Stock Qwen3-ASR",
+      ours: "Koelony fine-tune",
+      whisper: "Whisper large-v3",
+    },
+    benchToggle: { m17: "1.7B", m06: "0.6B" },
+    benchToggleLabel: "Model size",
+    benchNote:
+      "Greedy decoding, BF16 transformers, language forced to Cantonese. Text is converted to Simplified, numbers normalised and spaces removed before scoring. Full method in the repo.",
+    formatsTitle: "Weights and quantizations",
+    formatsCols: { repo: "Hugging Face repo", format: "Format", size: "Size", runtime: "Runtime" },
+    ctaHf: "Browse on Hugging Face",
   },
   demo: {
     title: "Runs entirely in your browser.",

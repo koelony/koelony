@@ -2,19 +2,21 @@ import { StrictMode } from "react";
 import { createRoot, hydrateRoot } from "react-dom/client";
 import { App } from "./App";
 import { DICTS } from "./i18n";
-import { localeFromPath } from "./locale";
+import { localeFromPath, pageFromPath } from "./locale";
 import "./styles.css";
 
-// Start fetching the deferred chunk now, so the koel is ready as soon as the page has hydrated.
-void import("./koel/Companion");
-
 const locale = localeFromPath(window.location.pathname);
+const page = pageFromPath(window.location.pathname);
+
+// Start fetching the deferred chunk now, so the koel is ready as soon as the page has hydrated.
+if (page === "home") void import("./koel/Companion");
+
 const root = document.getElementById("root");
 if (!root) throw new Error("#root missing");
 
 const app = (
   <StrictMode>
-    <App locale={locale} />
+    <App locale={locale} page={page} />
   </StrictMode>
 );
 
@@ -22,6 +24,6 @@ const app = (
 if (root.firstElementChild) {
   hydrateRoot(root, app);
 } else {
-  document.title = DICTS[locale].meta.title;
+  document.title = (page === "asr" ? DICTS[locale].asrPage.meta : DICTS[locale].meta).title;
   createRoot(root).render(app);
 }

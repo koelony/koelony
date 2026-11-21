@@ -1,5 +1,5 @@
 import type { Dict } from "../i18n";
-import { DEMO_URL, LINKS } from "../site";
+import { DEMO_URL } from "../site";
 import { Melody } from "./Staff";
 
 export function Hero({ t }: { t: Dict }) {
@@ -12,9 +12,6 @@ export function Hero({ t }: { t: Dict }) {
           <div className="actions">
             <a className="btn btn-solid" href={DEMO_URL} rel="noopener">
               {t.hero.ctaDemo}
-            </a>
-            <a className="btn btn-line" href={LINKS.asrRepo} rel="noopener">
-              {t.hero.ctaGithub}
             </a>
           </div>
         </div>

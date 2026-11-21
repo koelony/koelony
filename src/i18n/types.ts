@@ -16,7 +16,6 @@ export type Dict = {
     title: string;
     lede: string;
     ctaDemo: string;
-    ctaGithub: string;
     /** A code-switched Hong Kong Cantonese sentence, shown as a live "transcript". */
     sample: string;
     /**
@@ -31,7 +30,33 @@ export type Dict = {
     lede: string;
     /** One line per model size. */
     cards: { size: string; title: string }[];
-    ctaRepo: string;
+    /** Text link to the ASR page, under the section's one button. */
+    more: string;
+  };
+  /** The button to the ASR repo that shows its GitHub star count. */
+  repo: {
+    cta: string;
+    /** Read out after the label, e.g. "77 stars". `{n}` is replaced by the count. */
+    stars: string;
+  };
+  /** The ASR model's own page (`/asr/`, `/zh-hk/asr/`). */
+  asrPage: {
+    meta: { title: string; description: string; keywords: string[]; ogAlt: string };
+    title: string;
+    lede: string;
+    modelsTitle: string;
+    models: { size: string; badge: string; title: string; body: string }[];
+    benchTitle: string;
+    /** Headline results, one plain sentence each, every figure inside the sentence it proves. */
+    findings: string[];
+    benchCaption: string;
+    benchCols: { set: string; stock: string; ours: string; whisper: string };
+    benchToggle: { m17: string; m06: string };
+    /** Accessible name of the 1.7B / 0.6B switch above the benchmark. */
+    benchToggleLabel: string;
+    benchNote: string;
+    formatsTitle: string;
+    formatsCols: { repo: string; format: string; size: string; runtime: string };
     ctaHf: string;
   };
   demo: {

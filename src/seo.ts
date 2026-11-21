@@ -1,21 +1,36 @@
 import { DICTS } from "./i18n";
-import { DEFAULT_LOCALE, LINKS, LOCALES, type Locale, SITE_NAME, SITE_URL } from "./site";
+import {
+  DEFAULT_LOCALE,
+  LINKS,
+  LOCALES,
+  type Locale,
+  type Page,
+  pagePath,
+  SITE_NAME,
+  SITE_URL,
+} from "./site";
 
 const esc = (s: string) =>
   s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
-export const pageUrl = (locale: Locale) => `${SITE_URL}${LOCALES[locale].path}`;
+export const pageUrl = (locale: Locale, page: Page = "home") =>
+  `${SITE_URL}${pagePath(locale, page)}`;
 
 /** Every <head> tag that differs per language. Emitted at build time by scripts/prerender.ts. */
-export function buildHead(locale: Locale): string {
-  const t = DICTS[locale].meta;
+export function buildHead(locale: Locale, page: Page = "home"): string {
+  const t = page === "asr" ? DICTS[locale].asrPage.meta : DICTS[locale].meta;
   const l = LOCALES[locale];
-  const url = pageUrl(locale);
+  const url = pageUrl(locale, page);
   const og = `${SITE_URL}/og-${locale}.png`;
 
   const alternates = (Object.keys(LOCALES) as Locale[])
-    .map((k) => `<link rel="alternate" hreflang="${LOCALES[k].hreflang}" href="${pageUrl(k)}" />`)
-    .concat(`<link rel="alternate" hreflang="x-default" href="${pageUrl(DEFAULT_LOCALE)}" />`);
+    .map(
+      (k) =>
+        `<link rel="alternate" hreflang="${LOCALES[k].hreflang}" href="${pageUrl(k, page)}" />`,
+    )
+    .concat(
+      `<link rel="alternate" hreflang="x-default" href="${pageUrl(DEFAULT_LOCALE, page)}" />`,
+    );
 
   const otherLocales = (Object.keys(LOCALES) as Locale[])
     .filter((k) => k !== locale)
@@ -50,9 +65,23 @@ export function buildHead(locale: Locale): string {
         description: t.description,
         inLanguage: l.htmlLang,
         isPartOf: { "@id": `${SITE_URL}/#website` },
+        ...(page === "asr" && { about: { "@id": `${SITE_URL}/#asr` } }),
       },
+      ...(page === "asr"
+        ? [
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: SITE_NAME, item: pageUrl(locale) },
+                { "@type": "ListItem", position: 2, name: t.title, item: url },
+              ],
+            },
+          ]
+        : []),
       {
         "@type": "SoftwareSourceCode",
+        "@id": `${SITE_URL}/#asr`,
+        url: pageUrl("en", "asr"),
         name: "Qwen3-ASR Cantonese (Hong Kong)",
         description:
           "Fine-tunes of Qwen3-ASR 1.7B and 0.6B for Hong Kong colloquial Cantonese with English code-switching.",
