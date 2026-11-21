@@ -4,6 +4,15 @@ import { App } from "./App";
 import { DICTS } from "./i18n";
 import { localeFromPath, pageFromPath } from "./locale";
 import "./styles.css";
+import "./interaction.css";
+
+// The little-koel pointer is for a mouse or trackpad with motion allowed; everyone else keeps theirs.
+if (
+  window.matchMedia("(hover: hover) and (pointer: fine)").matches &&
+  !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+) {
+  void import("./cursor").then(({ startCursor }) => startCursor());
+}
 
 const locale = localeFromPath(window.location.pathname);
 const page = pageFromPath(window.location.pathname);

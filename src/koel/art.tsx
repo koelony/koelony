@@ -39,6 +39,37 @@ const perchTransform = (() => {
 const flyTransform = `translate(${ANCHOR.x * 512 - FLY_BELLY.x} ${ANCHOR.y * 512 - FLY_BELLY.y})`;
 
 /**
+ * The same koel for the little birds of the colony (Flock.tsx), with its beak cut free so a head can
+ * nod. The cut follows the drawing's own circles: the head is the r = 57.729 circle about its centre,
+ * the throat the r = 115.458 circle, and they meet at (389.83, 111.85). The body keeps the round
+ * head and the throat; the beak is the wedge in front of it and turns about the head's centre.
+ *
+ * This only fits the bird it was measured from. If `brand/koel.svg` is redrawn the little birds
+ * take the new drawing whole and their heads keep still, until the cut is measured again here.
+ */
+const numbers = (d: string) => (d.match(/-?\d*\.?\d+/g) ?? []).map(Number);
+const measured = (() => {
+  const a = numbers(PERCHED.d);
+  const b = numbers(FALLBACK.d);
+  return a.length === b.length && a.every((v, i) => Math.abs(v - b[i]) < 0.01);
+})();
+
+export const LITTLE = {
+  perch: perchTransform,
+  fly: flyTransform,
+  body: measured
+    ? "M370.83 72.241A57.729 57.729 0 0 1 389.83 111.85A115.458 115.458 0 0 0 355.298 195.238A256.893 256.893 0 0 1 42.812 448.283A248.234 248.234 0 0 0 303.338 223.095A427.194 427.194 0 0 1 38.073 391.298A326.168 326.168 0 0 1 232.425 136.963A92.366 92.366 0 0 0 279.815 90.889A57.729 57.729 0 0 1 370.83 72.241Z"
+    : PERCHED.d,
+  beak: measured
+    ? "M370.83 72.241A207.824 207.824 0 0 1 466.722 78.843A115.458 115.458 0 0 0 389.83 111.85L332.2 115.14Z"
+    : null,
+  // The head turns about its centre, (332.2, 115.14): keep `.b-head` in styles.css in step.
+  /** At thirty-odd pixels the official eye is a pixel wide, so the little birds get a bigger one. */
+  eye: PERCHED.eye && { ...PERCHED.eye, r: PERCHED.eye.r * 1.4 },
+  flyEye: { ...FLYING.eye, r: FLYING.eye.r * 1.25 },
+};
+
+/**
  * One layer of the bird. The silhouette and the eye are separate SVGs because the silhouette is
  * blended against the page (so it is black on white and white on black, like the logo) while the eye
  * must stay red.

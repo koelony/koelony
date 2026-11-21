@@ -1,0 +1,275 @@
+/*
+ * Hover, press and the pointer. Loaded after styles.css. The vocabulary is the page's own: lines
+ * rule themselves from the left, contours redraw, the koel blinks and pecks. Nothing lifts or glows.
+ */
+
+/* ---------- The pointer: a little koel (src/cursor.ts) ---------- */
+.cb,
+.cur-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  pointer-events: none;
+}
+.cur-trail {
+  width: 100vw;
+  height: 100vh;
+  /* Drawn white and blended by difference: black on the page, white on the demo band. */
+  mix-blend-mode: difference;
+}
+.cb {
+  width: var(--cb, 46px);
+  height: var(--cb, 46px);
+  opacity: 0;
+  will-change: transform;
+}
+.cb svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  transform-origin: 70% 80%;
+  transition: transform 0.16s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+/* The silhouette is white and blended by difference, like the koel on the page; the eye stays red. */
+.cb-body {
+  mix-blend-mode: difference;
+  fill: #fff;
+}
+.cb-eye {
+  fill: var(--brand-red, #d0201a);
+}
+.cursor-solid .cb-body {
+  mix-blend-mode: normal;
+}
+.cursor-in .cb {
+  opacity: 1;
+}
+.cb .cb-fly,
+.cb[data-pose="fly"] .cb-perch {
+  display: none;
+}
+.cb[data-pose="fly"] .cb-fly {
+  display: inline;
+}
+/* The head (beak and eye) turns about the centre of the round head: LITTLE.pivot in art.tsx. */
+.cb-head {
+  transform-box: view-box;
+  transform-origin: 332.2px 115.14px;
+}
+.cb-blink {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: cb-blink 4.6s infinite;
+}
+.cb-wing {
+  transform-box: view-box;
+  transform-origin: 268px 208px;
+}
+.cb[data-pose="fly"] .cb-wing {
+  animation: k-flap 0.24s cubic-bezier(0.4, 0, 0.6, 1) infinite alternate;
+}
+.cb[data-pose="fly"] .cb-wing-far {
+  animation-delay: -0.05s;
+}
+/* Reaching something clickable, it pecks twice. */
+.cursor-link .cb-head {
+  animation: cb-peck 0.5s ease-in-out;
+}
+/* A click is a little hop: squashed while pressed, springing back on release. */
+.cursor-down .cb svg {
+  transform: translateY(2px) scale(1.12, 0.84);
+}
+@keyframes cb-peck {
+  20%,
+  60% {
+    transform: rotate(26deg);
+  }
+  40%,
+  80% {
+    transform: rotate(4deg);
+  }
+}
+@keyframes cb-blink {
+  0%,
+  93%,
+  100% {
+    transform: scaleY(1);
+  }
+  95% {
+    transform: scaleY(0.1);
+  }
+}
+/* The system cursor goes only once ours is on screen, so there is never no cursor at all. */
+html.has-cursor.cursor-in,
+html.has-cursor.cursor-in * {
+  cursor: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* ---------- Buttons: the fill rules itself across from the left ---------- */
+  .btn,
+  .lang {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    transition:
+      color 0.28s 0.04s,
+      border-color 0.28s;
+  }
+  .btn::before,
+  .lang::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    z-index: -1;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.38s cubic-bezier(0.3, 0.6, 0.15, 1);
+  }
+  .btn:hover::before,
+  .lang:hover::before {
+    transform: scaleX(1);
+  }
+  .btn-line::before,
+  .lang::before {
+    background: var(--ink);
+  }
+  .btn-line:hover,
+  .lang:hover {
+    background: transparent;
+    color: var(--paper);
+  }
+  .btn-solid::before {
+    background: color-mix(in srgb, var(--eye) 80%, #000);
+  }
+  .btn-solid:hover {
+    border-color: color-mix(in srgb, var(--eye) 80%, #000);
+    background: var(--eye);
+  }
+  .btn:active {
+    transform: scale(0.97);
+  }
+  .btn {
+    transition:
+      color 0.28s 0.04s,
+      border-color 0.28s,
+      transform 0.12s;
+  }
+  /* The star turns once, like a twinkle, when the button is reached. */
+  .stars svg {
+    transition: transform 0.5s cubic-bezier(0.3, 1.6, 0.5, 1);
+  }
+  .btn-stars:hover .stars svg {
+    transform: rotate(144deg) scale(1.2);
+  }
+
+  /* ---------- Links: the underline is a line ruled across ---------- */
+  main a:not(.btn, .brand),
+  .footer-links a {
+    text-decoration: none;
+    background-image:
+      linear-gradient(currentColor, currentColor), linear-gradient(currentColor, currentColor);
+    background-repeat: no-repeat;
+    background-position:
+      0 100%,
+      0 100%;
+    background-size:
+      100% 1px,
+      0 2px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+    padding-bottom: 2px;
+    transition: background-size 0.4s cubic-bezier(0.3, 0.6, 0.15, 1);
+  }
+  main a:not(.btn, .brand):hover,
+  .footer-links a:hover {
+    background-size:
+      100% 1px,
+      100% 2px;
+  }
+  .footer-links [aria-current] {
+    background-size:
+      0 1px,
+      0 2px;
+  }
+  .nav a {
+    position: relative;
+  }
+  .nav a::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    bottom: -3px;
+    left: 0;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: 0 50%;
+    transition: transform 0.32s cubic-bezier(0.3, 0.6, 0.15, 1);
+  }
+  .nav a:hover {
+    text-decoration: none;
+  }
+  .nav a:hover::after,
+  .nav a[aria-current]::after {
+    transform: scaleX(1);
+  }
+
+  /* ---------- The logo's koel blinks ---------- */
+  .logo circle[fill="var(--eye)"] {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  .brand:hover .logo circle[fill="var(--eye)"] {
+    animation: blink 0.42s ease-in-out;
+  }
+
+  /* ---------- The transcript: a syllable sings its contour again ---------- */
+  .melody .note rt {
+    transition: color 0.2s;
+  }
+  .melody[data-done] .note:hover rt {
+    color: var(--ink);
+  }
+  .melody[data-done] .note:hover .contour line {
+    animation: rule 0.28s cubic-bezier(0.3, 0.6, 0.15, 1);
+    stroke-width: 6px;
+  }
+
+  /* ---------- A model size confirms itself again ---------- */
+  .models[data-seen] .model:hover .ch {
+    animation: reconfirm 0.5s calc(var(--k, 0) * 0.08s) both;
+  }
+
+  /* ---------- Tables and the size switch ---------- */
+  .bench-table tbody tr,
+  .formats tbody tr {
+    transition: background-color 0.2s;
+  }
+  .bench-table tbody tr:hover,
+  .formats tbody tr:hover {
+    background: color-mix(in srgb, var(--ink) 5%, transparent);
+  }
+  .toggle button {
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+  }
+  .toggle button[aria-pressed="false"]:hover {
+    background: color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+}
+
+@keyframes blink {
+  45%,
+  55% {
+    transform: scaleY(0.1);
+  }
+}
+@keyframes reconfirm {
+  from {
+    opacity: 0.24;
+  }
+}
