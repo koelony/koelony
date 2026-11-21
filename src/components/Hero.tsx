@@ -1,4 +1,5 @@
 import type { Dict } from "../i18n";
+import { Canopy } from "../koel/Canopy";
 import { Crossing } from "../koel/Flock";
 import { DEMO_URL } from "../site";
 import { Melody } from "./Staff";
@@ -6,6 +7,7 @@ import { Melody } from "./Staff";
 export function Hero({ t }: { t: Dict }) {
   return (
     <section className="hero" aria-labelledby="hero-title">
+      <Canopy seed={7} w={720} h={560} from="right" />
       <div className="wrap">
         <h1 id="hero-title">{t.hero.title}</h1>
         <div className="hero-sub">

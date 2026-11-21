@@ -1,6 +1,7 @@
 /*
- * Koelony. A ruled sheet in black and white: one left edge, black hairlines, type set in a Hong Kong
- * rounded gothic. Red is spent only where the logo spends it, on an eye-sized dot.
+ * Koelony. A ruled sheet in two tones of the koel's day (see :root): one left edge, ink hairlines,
+ * type set in a Hong Kong rounded gothic, and a banyan behind it where the koel feeds. Red is spent
+ * where the logo spends it: the eye, the figs, and the one primary button.
  *
  * The sheet is manuscript paper (every rule is the top line of a five-line staff) and a colony of
  * little koels stands on its lines: see "The colony" and the staff under `.section` below.
@@ -37,13 +38,21 @@
 }
 
 :root {
-  --paper: #fff;
-  --ink: #000;
-  --soft: #595959;
-  --hair: #c9c9c9;
-  --mid: #767676;
+  /*
+   * Two times of the koel's day, never pure black on pure white. Light is a misty morning in the
+   * banyans (a pale leaf-grey, ink a deep green-black); dark is the small hours when it calls, the
+   * glossy blue-black of the male bird.
+   */
+  --paper: #e6ece8;
+  --ink: #18211d;
+  --soft: #4e5b55;
+  --hair: #c0cac4;
+  --mid: #6f7c76;
   /* The sheet's own printed ruling: fainter than a hairline, the lines nothing has been written on. */
-  --rule: #dcdcdc;
+  --rule: #d3dbd6;
+  /* The banyan behind the page (koel/Canopy.tsx): a shade off the paper, never louder than that. */
+  --bough: #d2dbd5;
+  --leaf: #c8d3cc;
   --eye: var(--brand-red, #d0201a);
   --display:
     "Chiron GoRound TC", "PingFang HK", "Noto Sans HK", "Microsoft JhengHei", system-ui, sans-serif;
@@ -58,30 +67,39 @@
   --staff-h: clamp(34px, 22px + 2.4vw, 52px);
   color-scheme: light;
 }
-/* The demo band is the page's negative: black where the page is white, and the other way round. */
+/*
+ * The demo band is the one place to try the model, so it is the other time of day: night on the
+ * morning page, morning on the night page.
+ */
 .band {
-  --paper: #000;
-  --ink: #fff;
-  --soft: #b0b0b0;
-  --hair: #404040;
-  --mid: #8c8c8c;
+  --paper: #0f1520;
+  --ink: #e4e8ee;
+  --soft: #a3acb9;
+  --hair: #2c3546;
+  --mid: #7d8796;
+  --bough: #18202d;
+  --leaf: #1c2533;
 }
 @media (prefers-color-scheme: dark) {
   :root {
-    --paper: #000;
-    --ink: #fff;
-    --soft: #b0b0b0;
-    --hair: #404040;
-    --mid: #8c8c8c;
-    --rule: #2e2e2e;
+    --paper: #0f1520;
+    --ink: #e4e8ee;
+    --soft: #a3acb9;
+    --hair: #2c3546;
+    --mid: #7d8796;
+    --rule: #1c2432;
+    --bough: #18202d;
+    --leaf: #1c2533;
     color-scheme: dark;
   }
   .band {
-    --paper: #fff;
-    --ink: #000;
-    --soft: #595959;
-    --hair: #c9c9c9;
-    --mid: #767676;
+    --paper: #e6ece8;
+    --ink: #18211d;
+    --soft: #4e5b55;
+    --hair: #c0cac4;
+    --mid: #6f7c76;
+    --bough: #d2dbd5;
+    --leaf: #c8d3cc;
   }
 }
 
@@ -1054,6 +1072,85 @@ tbody :is(th, td) {
   margin-top: 24px;
 }
 
+/*
+ * The banyan (koel/Canopy.tsx). A bough grows in from the edge of a section, behind everything in
+ * it, a shade off the paper. The section keeps it to itself (isolation) and the bough never runs
+ * past the section's bottom edge, so it cannot pass over the next section's text.
+ */
+.hero,
+#nest,
+.section-tight {
+  position: relative;
+  isolation: isolate;
+}
+.canopy {
+  position: absolute;
+  top: 0;
+  z-index: -1;
+  width: var(--cw);
+  height: min(var(--ch), 100%);
+  overflow: hidden;
+  pointer-events: none;
+  transform-origin: top right;
+  scale: var(--cs, 1);
+}
+.canopy-right {
+  right: 0;
+}
+.canopy-left {
+  left: 0;
+  transform-origin: top left;
+}
+@media (max-width: 900px) {
+  .canopy {
+    --cs: 0.72;
+  }
+}
+@media (max-width: 560px) {
+  .canopy {
+    --cs: 0.5;
+  }
+}
+.canopy svg {
+  display: block;
+  overflow: visible;
+}
+.canopy .bough {
+  fill: var(--bough);
+}
+.canopy .leaf {
+  fill: var(--leaf);
+}
+/* Ripe figs, the koel's food: red, but only a blush of it, so they never shout over the type. */
+.canopy .fig {
+  fill: color-mix(in srgb, var(--eye) 38%, var(--paper));
+}
+.canopy .root {
+  fill: none;
+  stroke: var(--bough);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+.canopy .sway {
+  transform-box: view-box;
+  transform-origin: var(--ox) var(--oy);
+}
+.perch {
+  position: absolute;
+  right: 0;
+  left: 0;
+  height: 0;
+}
+.canopy .roost {
+  top: 0;
+}
+/* The bough on the OraType section sits low, its limb along the line the footer hangs from. */
+.canopy-oratype {
+  top: auto;
+  bottom: 0;
+  transform-origin: bottom left;
+}
+
 /* Footer */
 .site-footer {
   padding-block: calc(var(--staff-h) + clamp(28px, 3vw, 40px)) 72px;
@@ -1664,6 +1761,14 @@ tbody :is(th, td) {
     animation-play-state: running;
   }
 
+  /* The banyan stirs while it is on screen: leaves turn on their twigs, the roots swing. */
+  .canopy[data-in] .sway {
+    animation: sway var(--sp, 4s) ease-in-out var(--sd, 0s) infinite alternate;
+  }
+  .canopy[data-in] .root {
+    animation-name: sway-root;
+  }
+
   /* If the script never arrives, everything it would have started is simply shown. */
   .js:not(.watch) [data-watch]::before,
   .js:not(.watch) [data-watch] :is(.contour, .staff-fill),
@@ -1796,6 +1901,22 @@ tbody :is(th, td) {
   }
 }
 /* Never dead still: a slow bob from the feet, each bird at its own pace (`--bp`). */
+@keyframes sway {
+  from {
+    rotate: -3deg;
+  }
+  to {
+    rotate: 4deg;
+  }
+}
+@keyframes sway-root {
+  from {
+    rotate: -1.2deg;
+  }
+  to {
+    rotate: 1.4deg;
+  }
+}
 @keyframes b-breathe {
   0%,
   100% {

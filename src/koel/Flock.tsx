@@ -162,7 +162,7 @@ export function Roost({
   on,
   birds,
 }: {
-  on: "rule" | "edge" | "staff" | "late" | "floor";
+  on: "rule" | "edge" | "staff" | "late" | "floor" | "bough";
   birds: BirdSpec[];
 }) {
   return (
@@ -171,7 +171,7 @@ export function Roost({
       aria-hidden="true"
       // The hero's birds wait for the koel and the closing staff's for the footer (it is the last
       // thing on the page, where a tall window never counts a thin strip as reached).
-      data-watch={on === "rule" || on === "edge" || on === "floor" || undefined}
+      data-watch={on === "rule" || on === "edge" || on === "floor" || on === "bough" || undefined}
     >
       {birds.map((b) =>
         on === "edge" ? (

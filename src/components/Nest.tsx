@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import type { Dict } from "../i18n";
 import type { Status } from "../i18n/types";
+import { Canopy } from "../koel/Canopy";
 import { TRACK } from "../koel/colony";
 import { Bird, Crossing } from "../koel/Flock";
 import { type Locale, pagePath } from "../site";
@@ -28,6 +29,13 @@ export function Nest({ t, locale }: { t: Dict; locale: Locale }) {
   return (
     <section id="nest" className="section" aria-labelledby="nest-title">
       <Crossing />
+      <Canopy
+        seed={21}
+        w={560}
+        h={640}
+        from="left"
+        birds={[{ on: 0, act: "flit nod", reach: "2.5em", every: 8, wait: 0.6 }]}
+      />
       <div className="wrap">
         <div className="section-head">
           <h2 id="nest-title">{t.nest.title}</h2>
