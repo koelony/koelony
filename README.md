@@ -54,6 +54,9 @@ branch in `src/locale.ts`. The prerender, sitemap and hreflang tags pick it up.
   repository → `koelony/koelony`. Build command `bun run build`, deploy command `bunx wrangler deploy`.
   Every push to `main` deploys; pull requests get preview URLs.
 - **From a laptop:** `bunx wrangler login`, then `bun run deploy`.
+- **Always-on preview:** `bun run deploy:preview` publishes the current build to
+  <https://koelony-preview.koelony-site.workers.dev> (`wrangler.preview.jsonc`: no routes, so it never
+  touches koelony.com; pages keep their koelony.com canonical links).
 
 The domain's current redirect (to `koelony-com.l.ink`) and any existing `koelony.com` / `www` DNS
 records must be removed first, or the custom domain will not attach.
