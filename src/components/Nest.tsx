@@ -8,7 +8,7 @@ export function Nest({ t }: { t: Dict }) {
           <h2 id="nest-title">{t.nest.title}</h2>
           <p className="lede">{t.nest.lede}</p>
         </div>
-        <ul className="roadmap" data-perch="nest">
+        <ul className="roadmap">
           {t.nest.items.map((it) => (
             <li key={it.title}>
               <h3>{it.title}</h3>

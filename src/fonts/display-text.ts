@@ -1,4 +1,3 @@
-import { TONES } from "../data/tones";
 import type { Dict } from "../i18n";
 import { DICTS } from "../i18n";
 import { LOCALES, SITE_NAME } from "../site";
@@ -14,22 +13,18 @@ const heavy = (t: Dict): string[] => [
   t.demo.title,
   t.nest.title,
   t.usedBy.title,
-  t.name.title,
 ];
 
 const bold = (t: Dict): string[] => [
   t.hero.sample,
   t.hero.ctaDemo,
   t.hero.ctaGithub,
-  ...t.asr.cards.flatMap((c) => [c.size, c.badge, c.title]),
-  t.asr.benchTitle,
-  t.asr.formatsTitle,
+  ...t.asr.cards.map((c) => c.size),
   t.asr.ctaRepo,
   t.asr.ctaHf,
   t.demo.cta,
   ...t.nest.items.map((i) => i.title),
   t.usedBy.cta,
-  t.koel.call,
   ...Object.values(t.nav),
 ];
 
@@ -41,6 +36,5 @@ export const DISPLAY_TEXT = {
     all(bold) +
     Object.values(LOCALES)
       .map((l) => l.label)
-      .join("") +
-    TONES.map((t) => t.zi).join(""),
+      .join(""),
 };

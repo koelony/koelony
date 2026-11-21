@@ -7,7 +7,6 @@ export type Dict = {
     asr: string;
     demo: string;
     nest: string;
-    name: string;
     github: string;
     switchLabel: string;
     /** Accessible name of the main navigation landmark. */
@@ -27,34 +26,17 @@ export type Dict = {
     sampleJyutping: string;
     sampleLabel: string;
   };
-  name: {
-    title: string;
-    body: string[];
-    /** Caption of the figure that sets the koel's call beside the six Cantonese tones. */
-    tonesCaption: string;
-  };
   asr: {
     title: string;
     lede: string;
-    cards: { size: string; badge: string; title: string; body: string }[];
-    /** Headline results, one plain sentence each, every figure inside the sentence it proves. */
-    findings: string[];
-    formatsTitle: string;
-    formatsCols: { repo: string; format: string; size: string; runtime: string };
-    benchTitle: string;
-    benchCaption: string;
-    benchCols: { set: string; stock: string; ours: string; whisper: string };
-    benchToggle: { m17: string; m06: string };
-    /** Accessible name of the 1.7B / 0.6B switch above the benchmark. */
-    benchToggleLabel: string;
-    benchNote: string;
+    /** One line per model size. */
+    cards: { size: string; title: string }[];
     ctaRepo: string;
     ctaHf: string;
   };
   demo: {
     title: string;
     body: string;
-    points: string[];
     cta: string;
     note: string;
   };
@@ -66,6 +48,4 @@ export type Dict = {
   };
   usedBy: { title: string; body: string; cta: string };
   footer: { tagline: string; license: string; links: string };
-  /** The koel that flies around the page. `call` is what it sings, `poke` labels the button on it. */
-  koel: { call: string; poke: string };
 };

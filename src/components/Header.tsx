@@ -14,7 +14,6 @@ export function Header({ t, locale }: { t: Dict; locale: Locale }) {
           <a href="#asr">{t.nav.asr}</a>
           <a href="#demo">{t.nav.demo}</a>
           <a href="#nest">{t.nav.nest}</a>
-          <a href="#name">{t.nav.name}</a>
           <a href={LINKS.githubOrg} rel="noopener">
             {t.nav.github}
           </a>

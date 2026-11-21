@@ -7,25 +7,22 @@ import {
   useReducedMotion,
 } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import type { Dict } from "../i18n";
 import { KoelArtwork } from "./art";
-import { NUDGE_EVENT } from "./signal";
 
 /**
  * The koel that lives on the page.
  *
  * On load it flies the pitch of the hero sentence: each `[data-note]` in the `[data-melody]` staff
  * has a start and end tone level, the bird's flight passes through them in reading order, and each
- * syllable is confirmed (`data-on`) as the bird goes over it. After that it follows the reader:
- * whenever another `[data-perch]` is the one nearest the middle of the window, it flies there.
+ * syllable is confirmed (`data-on`) as the bird goes over it. Then it lands on the staff's perch
+ * and stays there: it does not follow the reader down the page.
  *
  * It is positioned in page coordinates inside `.site`, so a perched bird scrolls with the page for
- * free and nothing runs per scroll frame except choosing the perch. Only transforms are animated.
- * It is loaded and mounted on the client only (see App.tsx); with reduced motion it just sits on the
- * first perch.
+ * free. Only transforms are animated. It is loaded and mounted on the client only (see App.tsx);
+ * with reduced motion it just sits on the perch.
  */
 
-type Pose = "fly" | "perch" | "call";
+type Pose = "fly" | "perch";
 type Point = { x: number; y: number };
 type Perch = Point & { id: string; face: 1 | -1 };
 type Run = {
@@ -53,18 +50,17 @@ const arc = (a: Point, c: Point, b: Point, u: number): Point => {
   };
 };
 
-export default function KoelCompanion({ t }: { t: Dict }) {
+export default function KoelCompanion() {
   const reduce = useReducedMotion();
   return (
     <LazyMotion features={domMin} strict>
-      <Flight t={t} still={Boolean(reduce)} />
+      <Flight still={Boolean(reduce)} />
     </LazyMotion>
   );
 }
 
-function Flight({ t, still }: { t: Dict; still: boolean }) {
+function Flight({ still }: { still: boolean }) {
   const layer = useRef<HTMLDivElement>(null);
-  const poke = useRef<() => void>(() => {});
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const rotate = useMotionValue(0);
@@ -72,7 +68,6 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
   const squash = useMotionValue(1);
   const [pose, setPose] = useState<Pose>("fly");
   const [shown, setShown] = useState(false);
-  const [says, setSays] = useState(true);
 
   useEffect(() => {
     const el = layer.current;
@@ -90,7 +85,6 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
     let measureRaf = 0;
     let last = 0;
     let tilt = 0;
-    let sung = false;
     let alive = true;
     /** Where the staff was when the flight over it was planned. */
     let staffBox = "";
@@ -166,30 +160,6 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
       }
     };
 
-    /** The perch nearest the reader's eye line, among those fully on screen. */
-    const pick = (): Perch | null => {
-      const top = viewTop();
-      const lo = top + headerHeight() + size * 0.7;
-      const hi = top + window.innerHeight - size * 0.4;
-      const focus = top + window.innerHeight * 0.46;
-      let best: Perch | null = null;
-      let bestD = Number.POSITIVE_INFINITY;
-      for (const p of perches) {
-        if (p.y < lo || p.y > hi) continue;
-        const d = Math.abs(p.y - focus);
-        if (d < bestD) {
-          best = p;
-          bestD = d;
-        }
-      }
-      // Stay put unless the other perch is clearly better placed.
-      const here = perch(target);
-      if (here && best && best !== here && here.y >= lo && here.y <= hi) {
-        if (bestD + window.innerHeight * 0.14 > Math.abs(here.y - focus)) return here;
-      }
-      return best;
-    };
-
     const tick = (now: number) => {
       raf = 0;
       const r = run;
@@ -226,31 +196,18 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
       if (!raf) raf = requestAnimationFrame(tick);
     };
 
-    const call = () => {
-      if (mode !== "perched") return;
-      // On the tone chart its call is already written out under it.
-      setSays(target !== "tones");
-      setPose("call");
-      later(() => {
-        if (mode === "perched") setPose("perch");
-      }, 1150);
-    };
-
     const land = (id: string) => {
       const p = perch(id);
       if (!p) return;
       mode = "perched";
       place({ x: p.x, y: p.y });
       tilt = 0;
+      target = id;
       setPose("perch");
+      setShown(true);
       tween(rotate, [0], 220);
       if (face.get() !== p.face) tween(face, [p.face], 260, 140);
       tween(squash, [0.84, 1.06, 1], 480);
-      // It sings where singing is the point: after the hero sentence, and on the tone chart.
-      if (id === "tones" || (id === "hero" && !sung)) {
-        sung = sung || id === "hero";
-        later(call, 460);
-      }
     };
 
     const flyTo = (id: string, hop = false) => {
@@ -393,16 +350,14 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
       return true;
     };
 
-    const retarget = () => {
-      if (mode === "melody") {
-        const r = host()?.getBoundingClientRect();
-        if (r && r.bottom > headerHeight() && r.top < window.innerHeight) return;
-        finishMelody();
-        run = null;
-      }
-      const best = pick();
-      if (best && best.id !== target) flyTo(best.id);
-      else if (best && mode === "idle") flyTo(best.id);
+    /** Scrolled away mid-sentence: confirm the rest and settle on the perch without the flight. */
+    const abandon = () => {
+      if (mode !== "melody") return;
+      const r = host()?.getBoundingClientRect();
+      if (r && r.bottom > headerHeight() && r.top < window.innerHeight) return;
+      finishMelody();
+      run = null;
+      land("hero");
     };
 
     const remeasure = () => {
@@ -429,8 +384,9 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
         if (moved > 80) flyTo(here.id);
         else if (moved > 3) flyTo(here.id, true);
         else place({ x: here.x, y: here.y });
+      } else if (mode === "idle") {
+        flyTo("hero");
       }
-      retarget();
     };
     const queueMeasure = () => {
       if (!measureRaf) measureRaf = requestAnimationFrame(remeasure);
@@ -439,20 +395,9 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
       if (scrollRaf) return;
       scrollRaf = requestAnimationFrame(() => {
         scrollRaf = 0;
-        retarget();
+        abandon();
       });
     };
-    const onNudge = (event: Event) => {
-      if (mode !== "perched" || (event as CustomEvent<string>).detail !== target) return;
-      tween(squash, [0.86, 1.07, 1], 420);
-    };
-
-    poke.current = () => {
-      if (mode !== "perched") return;
-      if (target === "hero" && melody()) return;
-      call();
-    };
-
     const begin = () => {
       if (!alive) return;
       measure();
@@ -472,7 +417,7 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
       const inView = r && r.top < window.innerHeight * 0.92 && r.bottom > headerHeight() + 40;
       if (!inView || !melody()) {
         if (staff) finishMelody();
-        retarget();
+        land("hero");
       }
     };
 
@@ -491,7 +436,6 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
     });
     observer.observe(site);
     window.addEventListener("resize", queueMeasure);
-    window.addEventListener(NUDGE_EVENT, onNudge);
     if (!still) window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
@@ -504,7 +448,6 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
       for (const id of timers) window.clearTimeout(id);
       observer.disconnect();
       window.removeEventListener("resize", queueMeasure);
-      window.removeEventListener(NUDGE_EVENT, onNudge);
       window.removeEventListener("scroll", onScroll);
     };
   }, [still, x, y, rotate, face, squash]);
@@ -522,14 +465,6 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
       >
         <m.div className="koel-turn" style={turn}>
           <KoelArtwork part="body" />
-          <svg className="koel-note" viewBox="0 0 512 512" aria-hidden="true" focusable="false">
-            <path d="M492 76l28-6M536 58q40-18 56-76" />
-          </svg>
-          {says && (
-            <span className="koel-say">
-              <m.span style={{ scaleX: face }}>{t.koel.call}</m.span>
-            </span>
-          )}
         </m.div>
       </m.div>
       <m.div
@@ -537,17 +472,10 @@ function Flight({ t, still }: { t: Dict; still: boolean }) {
         data-pose={pose}
         data-shown={shown || undefined}
         style={{ x, y }}
+        aria-hidden="true"
       >
         <m.div className="koel-turn" style={turn}>
           <KoelArtwork part="eye" />
-          {!still && (
-            <button
-              type="button"
-              className="koel-poke"
-              aria-label={t.koel.poke}
-              onClick={() => poke.current()}
-            />
-          )}
         </m.div>
       </m.div>
     </>

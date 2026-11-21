@@ -21,15 +21,3 @@ export function contourOf(jyutping: string): { from: number; to: number; stop: b
   const stop = /[ptk]\d$/.test(jyutping);
   return { from: tone.from, to: stop ? tone.from : tone.to, stop };
 }
-
-/**
- * The koel's call: a low note, then a long rise that overshoots the top of the speaking range.
- * Each pair is [from, to] on the same five-level scale.
- */
-export const KOEL_CALL: [number, number][] = [
-  [2, 2.3],
-  [2.6, 5.9],
-];
-
-/** Jyutping for words the page annotates wherever they appear in a heading. */
-export const RUBY: Record<string, string[]> = { 噪鵑: ["cou3", "gyun1"] };

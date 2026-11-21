@@ -5,23 +5,22 @@ import { Demo } from "./components/Demo";
 import { Footer } from "./components/Footer";
 import { Header } from "./components/Header";
 import { Hero } from "./components/Hero";
-import { NameStory } from "./components/NameStory";
 import { Nest } from "./components/Nest";
 import { UsedBy } from "./components/UsedBy";
-import { DICTS, type Dict } from "./i18n";
+import { DICTS } from "./i18n";
 import type { Locale } from "./site";
 
 // The koel (and Motion, which only it uses) is not needed to read the page, so it loads after the
 // page has hydrated: the prerendered markup never contains the bird.
 const KoelCompanion = lazy(() => import("./koel/Companion"));
 
-function Koel({ t }: { t: Dict }) {
+function Koel() {
   const [mounted, setMounted] = useState(false);
   useEffect(() => setMounted(true), []);
   if (!mounted) return null;
   return (
     <Suspense fallback={null}>
-      <KoelCompanion t={t} />
+      <KoelCompanion />
     </Suspense>
   );
 }
@@ -43,10 +42,9 @@ export function App({ locale }: { locale: Locale }) {
         <Demo t={t} />
         <Nest t={t} />
         <UsedBy t={t} />
-        <NameStory t={t} />
       </main>
       <Footer t={t} locale={locale} />
-      <Koel t={t} />
+      <Koel />
     </div>
   );
 }

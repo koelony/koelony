@@ -10,11 +10,6 @@ export function Demo({ t }: { t: Dict }) {
           <p className="lede">{t.demo.body}</p>
         </div>
         <div className="demo-side">
-          <ul className="ruled" data-perch="demo" data-perch-edge="bottom">
-            {t.demo.points.map((p) => (
-              <li key={p}>{p}</li>
-            ))}
-          </ul>
           <a className="btn btn-solid" href={DEMO_URL} rel="noopener">
             {t.demo.cta}
           </a>
